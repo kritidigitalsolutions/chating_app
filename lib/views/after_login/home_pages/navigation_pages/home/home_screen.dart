@@ -76,7 +76,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 SizedBox(height: 25),
 
                 // main body
-                _chatBox(mediaQuery),
+                GestureDetector(
+                  onTap: () {
+                    Get.toNamed(AppRoutes.contactPage);
+                  },
+                  child: _chatBox(mediaQuery),
+                ),
                 SizedBox(height: 25),
 
                 // feature icon
@@ -104,9 +109,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       _navigationItem("assets/icons/room.png", () {}),
-                      _navigationItem("assets/icons/antenna.png", () {
-                        Get.toNamed(AppRoutes.contactPage);
-                      }),
+                      _navigationItem("assets/icons/antenna.png", () {}),
                       _navigationItem("assets/icons/user.png", () {}),
                       _navigationItem("assets/icons/heart_white.png", () {}),
                       _navigationItem("assets/icons/bubble-chat.png", () {}),
