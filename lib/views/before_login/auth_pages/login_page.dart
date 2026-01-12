@@ -36,7 +36,7 @@ class LoginPage extends StatelessWidget {
                   "assets/images/google.png",
                   AppColors.mainColors.withAlpha(100),
                   () {
-                    Get.toNamed(AppRoutes.phoneNumber);
+                    Get.toNamed(AppRoutes.homePage);
                   },
                 ),
                 SizedBox(height: 15),

@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:chat_app/res/app_colors.dart';
 
@@ -8,38 +7,76 @@ class WalletPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          /// Background
-          Positioned.fill(
-            child: Image.asset(
-              "assets/images/couple-park.png",
-              fit: BoxFit.cover,
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topRight,
+            end: Alignment.bottomLeft,
+            colors: [
+              AppColors.graPurple1,
+              AppColors.gradientBlack,
+              AppColors.balckBlue,
+            ],
+          ),
+        ),
+        child: SafeArea(
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _topBar(),
+                const SizedBox(height: 20),
+                Container(
+                  width: double.infinity,
+                  height: 2,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [AppColors.graPurple2, AppColors.graPurple1],
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                _actionRow(),
+                const SizedBox(height: 16),
+                _walletSummary(),
+                const SizedBox(height: 16),
+                _lifetimeOverview(),
+                const SizedBox(height: 16),
+                _liveStreamEarning(),
+                const SizedBox(height: 16),
+                _transactionHistory(),
+              ],
             ),
           ),
-          Positioned.fill(
-            child: Container(color: Colors.black.withOpacity(0.75)),
-          ),
+        ),
+      ),
+    );
+  }
 
-          SafeArea(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _topBar(),
-                  const SizedBox(height: 20),
-                  _actionRow(),
-                  const SizedBox(height: 16),
-                  _walletSummary(),
-                  const SizedBox(height: 16),
-                  _lifetimeOverview(),
-                  const SizedBox(height: 16),
-                  _liveStreamEarning(),
-                  const SizedBox(height: 16),
-                  _transactionHistory(),
-                ],
-              ),
+  // ───────── TOP BAR ─────────
+  Widget _topBar() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 12.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          const Text(
+            "My Wallet",
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          CircleAvatar(
+            radius: 25,
+            backgroundColor: Colors.white12,
+            child: Icon(
+              Icons.account_balance_wallet,
+              color: Colors.white,
+              size: 25,
             ),
           ),
         ],
@@ -47,42 +84,19 @@ class WalletPage extends StatelessWidget {
     );
   }
 
-  // ───────── TOP BAR ─────────
-  Widget _topBar() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        const Text(
-          "My Wallet",
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        CircleAvatar(
-          radius: 18,
-          backgroundColor: Colors.white12,
-          child: Icon(
-            Icons.account_balance_wallet,
-            color: Colors.white,
-            size: 18,
-          ),
-        ),
-      ],
-    );
-  }
-
   // ───────── ACTION ICONS ─────────
   Widget _actionRow() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        _iconItem(Icons.card_giftcard, "Gift Sent"),
-        _iconItem(Icons.videocam, "Video Call"),
-        _iconItem(Icons.history, "Coins History"),
-        _iconItem(Icons.wifi_tethering, "Live Streaming"),
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 12.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          _iconItem(Icons.card_giftcard, "Gift Sent"),
+          _iconItem(Icons.videocam, "Video Call"),
+          _iconItem(Icons.history, "Coins History"),
+          _iconItem(Icons.wifi_tethering, "Live Streaming"),
+        ],
+      ),
     );
   }
 
@@ -274,6 +288,7 @@ class WalletPage extends StatelessWidget {
   Widget _glassCard({required Widget child}) {
     return Container(
       padding: const EdgeInsets.all(14),
+      margin: const EdgeInsets.symmetric(horizontal: 12.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
         color: Colors.white.withOpacity(0.08),

@@ -12,4 +12,19 @@ class AppRoutes {
   static const String chatPage = "/chatPage";
 
   static const String walletPage = "/walletPage";
+
+  static const String chatList = "/chatList";
+  static const String likedProfile = "/likedProfile";
+
+  static const String profilePage = "/profilePage";
+  static const String roomSpace = "/roomSpace";
+
+  static const String roomCreate = "/roomCreate";
+
+  static const String streamingList = "/streamingList";
+  static const String streamjoin = "/streamjoin";
+
+  static const String joinedStream = "/joinedStream";
+
+  static const String liveRadio = "/liveRadio";
 }

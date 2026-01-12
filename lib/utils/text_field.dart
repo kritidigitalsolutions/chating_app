@@ -92,3 +92,41 @@ class AppTextField extends StatelessWidget {
     );
   }
 }
+
+class TextFieldWithBorder extends StatelessWidget {
+  final TextEditingController? controller;
+  final int maxLines;
+  final TextInputType keyboardType;
+  final bool readOnly;
+  final Widget? suffix;
+
+  const TextFieldWithBorder({
+    super.key,
+    this.controller,
+    this.maxLines = 1,
+    this.keyboardType = TextInputType.text,
+    this.readOnly = false,
+    this.suffix,
+  });
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      maxLines: maxLines,
+      style: const TextStyle(color: Colors.white),
+      decoration: InputDecoration(
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 14,
+          vertical: 14,
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(color: AppColors.graPurple1),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(color: AppColors.graPurple1),
+        ),
+      ),
+    );
+  }
+}
