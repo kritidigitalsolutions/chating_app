@@ -27,4 +27,9 @@ class AppRoutes {
   static const String joinedStream = "/joinedStream";
 
   static const String liveRadio = "/liveRadio";
+
+  static const String likedUserDetails = "/likedUserDetails";
+  static const String confirmPage = "/confirmPage";
+
+  static const String videoCallPage = "/videoCallPage";
 }

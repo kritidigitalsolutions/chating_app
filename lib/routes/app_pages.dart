@@ -1,8 +1,11 @@
 import 'package:chat_app/routes/app_routes.dart';
 import 'package:chat_app/views/after_login/home_pages/home/live_radio_page.dart';
+import 'package:chat_app/views/after_login/navigation_pages/liked_profile_page/liked_user_page.dart';
 import 'package:chat_app/views/after_login/navigation_pages/live_streaming_pages/joined_streaming_pages.dart';
 import 'package:chat_app/views/after_login/navigation_pages/live_streaming_pages/stream_join_page.dart';
 import 'package:chat_app/views/after_login/navigation_pages/live_streaming_pages/streaming_list_page.dart';
+import 'package:chat_app/views/after_login/navigation_pages/room_pages/confirm_page.dart';
+import 'package:chat_app/views/after_login/navigation_pages/room_pages/video_call_page.dart';
 import 'package:chat_app/views/after_login/wallet_pages/wallet_page.dart';
 import 'package:chat_app/views/after_login/home_pages/home/home_screen.dart';
 import 'package:chat_app/views/after_login/home_pages/chat_pages/chat_page.dart';
@@ -45,5 +48,8 @@ class AppPages {
     GetPage(name: AppRoutes.streamjoin, page: () => StreamJoinPage()),
     GetPage(name: AppRoutes.joinedStream, page: () => JoinedStreamingPages()),
     GetPage(name: AppRoutes.liveRadio, page: () => LiveRadioPage()),
+    GetPage(name: AppRoutes.likedUserDetails, page: () => LikedUserPage()),
+    GetPage(name: AppRoutes.confirmPage, page: () => ConfirmPage()),
+    GetPage(name: AppRoutes.videoCallPage, page: () => VideoCallPage()),
   ];
 }

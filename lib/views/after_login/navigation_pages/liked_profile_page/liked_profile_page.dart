@@ -1,7 +1,9 @@
 import 'package:chat_app/res/app_colors.dart';
+import 'package:chat_app/routes/app_routes.dart';
 import 'package:chat_app/utils/button.dart';
 import 'package:chat_app/utils/textStyle.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class LikedProfilePage extends StatelessWidget {
   const LikedProfilePage({super.key});
@@ -73,49 +75,57 @@ class LikeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 14),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(14),
-        gradient: const LinearGradient(
-          colors: [AppColors.graPurple1, AppColors.graPurple2],
-        ),
-      ),
-      padding: const EdgeInsets.all(1.2),
+    return GestureDetector(
+      onTap: () {
+        Get.toNamed(AppRoutes.likedUserDetails);
+      },
       child: Container(
+        margin: const EdgeInsets.only(bottom: 14),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(13),
-          color: AppColors.gradientBlack,
+          borderRadius: BorderRadius.circular(14),
+          gradient: const LinearGradient(
+            colors: [AppColors.graPurple1, AppColors.graPurple2],
+          ),
         ),
-        child: ListTile(
-          contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 12),
-          leading: iconButton(Icons.favorite, Colors.pink, () {}),
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Text(
-                "  Vandana Singh ",
-                style: textStyle15(FontWeight.w600, color: AppColors.white),
-              ),
-              Text(
-                "liked you",
-                style: TextStyle(color: Colors.white70, fontSize: 13),
-              ),
-            ],
+        padding: const EdgeInsets.all(1.2),
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(13),
+            color: AppColors.gradientBlack,
           ),
-          subtitle: const Text(
-            "Click to see the profile",
-            style: TextStyle(color: Colors.white54, fontSize: 12),
-          ),
-          trailing: Stack(
-            alignment: Alignment.bottomRight,
-            children: const [
-              CircleAvatar(
-                radius: 22,
-                backgroundImage: AssetImage("assets/images/user.jpg"),
-              ),
-              CircleAvatar(radius: 6, backgroundColor: AppColors.gradientBlue),
-            ],
+          child: ListTile(
+            contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 12),
+            leading: iconButton(Icons.favorite, Colors.pink, () {}),
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(
+                  "  Vandana Singh ",
+                  style: textStyle15(FontWeight.w600, color: AppColors.white),
+                ),
+                Text(
+                  "liked you",
+                  style: TextStyle(color: Colors.white70, fontSize: 13),
+                ),
+              ],
+            ),
+            subtitle: const Text(
+              "Click to see the profile",
+              style: TextStyle(color: Colors.white54, fontSize: 12),
+            ),
+            trailing: Stack(
+              alignment: Alignment.bottomRight,
+              children: const [
+                CircleAvatar(
+                  radius: 22,
+                  backgroundImage: AssetImage("assets/images/user.jpg"),
+                ),
+                CircleAvatar(
+                  radius: 6,
+                  backgroundColor: AppColors.gradientBlue,
+                ),
+              ],
+            ),
           ),
         ),
       ),

@@ -1,8 +1,10 @@
 import 'package:chat_app/res/app_colors.dart';
+import 'package:chat_app/routes/app_routes.dart';
 import 'package:chat_app/utils/button.dart';
 import 'package:chat_app/utils/textStyle.dart';
 import 'package:chat_app/utils/text_field.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class RoomCreatingPage extends StatelessWidget {
   const RoomCreatingPage({super.key});
@@ -99,7 +101,7 @@ class RoomCreatingPage extends StatelessWidget {
   }
 
   Widget _topHeader() {
-    return Container(
+    return SizedBox(
       width: double.infinity,
       child: Column(
         children: [
@@ -387,7 +389,9 @@ class RoomCreatingPage extends StatelessWidget {
           children: [
             CustomElevetedButton(
               text: "Continue",
-              onPressed: () {},
+              onPressed: () {
+                Get.toNamed(AppRoutes.confirmPage);
+              },
               backgroundColor: AppColors.graPurple1.withAlpha(150),
             ),
           ],
