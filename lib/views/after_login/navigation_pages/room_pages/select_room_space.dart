@@ -39,37 +39,47 @@ class SelectRoomSpace extends StatelessWidget {
                   "Personal Rooms",
                   "space made just for you are your people",
                   '',
+                  () {
+                    Get.toNamed(AppRoutes.roomListPage);
+                  },
                 ),
                 SizedBox(height: 15),
                 _itemBox(
                   "Friends Room",
                   "space made just for you are your people",
                   '',
+                  () {
+                    Get.toNamed(AppRoutes.friendRoom);
+                  },
                 ),
                 SizedBox(height: 15),
-                _itemBox(
-                  "Relationship Space",
-                  "space made just for you are your people",
-                  '',
-                ),
-                SizedBox(height: 15),
-                _itemBox(
-                  "Casual Chat",
-                  "space made just for you are your people",
-                  '',
-                ),
-                SizedBox(height: 15),
-                _itemBox(
-                  "Late Night Talks",
-                  "space made just for you are your people",
-                  '',
-                ),
-                SizedBox(height: 15),
-                _itemBox(
-                  "Fun & Games",
-                  "space made just for you are your people",
-                  '',
-                ),
+                // _itemBox(
+                //   "Relationship Space",
+                //   "space made just for you are your people",
+                //   '',
+                //   (){}
+                // ),
+                // SizedBox(height: 15),
+                // _itemBox(
+                //   "Casual Chat",
+                //   "space made just for you are your people",
+                //   '',
+                //   (){}
+                // ),
+                // SizedBox(height: 15),
+                // _itemBox(
+                //   "Late Night Talks",
+                //   "space made just for you are your people",
+                //   '',
+                //   (){}
+                // ),
+                // SizedBox(height: 15),
+                // _itemBox(
+                //   "Fun & Games",
+                //   "space made just for you are your people",
+                //   '',
+                //   (){}
+                // ),
               ],
             ),
           ),
@@ -113,66 +123,74 @@ class SelectRoomSpace extends StatelessWidget {
     );
   }
 
-  Widget _itemBox(String title, String subtitle, String image) {
-    return Container(
-      padding: EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        color: AppColors.gradientBlack.withAlpha(100),
-        border: Border.all(width: 1, color: AppColors.graPurple1),
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Row(
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                title,
-                style: textStyle15(FontWeight.w600, color: AppColors.white),
-              ),
-              Text(
-                subtitle,
-                style: textStyle13(FontWeight.w600, color: AppColors.white54),
-              ),
-              SizedBox(height: 6),
-              GestureDetector(
-                onTap: () {
-                  Get.toNamed(AppRoutes.chatPage);
-                },
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(width: 1, color: AppColors.graPurple1),
-                  ),
-                  child: Center(
-                    child: Text(
-                      'Enter Room',
-                      style: textStyle12(
-                        FontWeight.w400,
-                        color: AppColors.white54,
+  Widget _itemBox(
+    String title,
+    String subtitle,
+    String image,
+    VoidCallback onTap,
+  ) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          color: AppColors.gradientBlack.withAlpha(100),
+          border: Border.all(width: 1, color: AppColors.graPurple1),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Row(
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: textStyle15(FontWeight.w600, color: AppColors.white),
+                ),
+                Text(
+                  subtitle,
+                  style: textStyle13(FontWeight.w600, color: AppColors.white54),
+                ),
+                SizedBox(height: 6),
+                GestureDetector(
+                  onTap: () {
+                    Get.toNamed(AppRoutes.chatPage);
+                  },
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(width: 1, color: AppColors.graPurple1),
+                    ),
+                    child: Center(
+                      child: Text(
+                        'Enter Room',
+                        style: textStyle12(
+                          FontWeight.w400,
+                          color: AppColors.white54,
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ],
-          ),
+              ],
+            ),
 
-          Spacer(),
-          CircleAvatar(
-            radius: 30,
-            backgroundColor: AppColors.graPurple1,
-            child: Center(
-              child: Image.asset(
-                image,
-                errorBuilder: (context, error, stackTrace) {
-                  return Icon(Icons.error_outline, color: AppColors.white54);
-                },
+            Spacer(),
+            CircleAvatar(
+              radius: 30,
+              backgroundColor: AppColors.graPurple1,
+              child: Center(
+                child: Image.asset(
+                  image,
+                  errorBuilder: (context, error, stackTrace) {
+                    return Icon(Icons.error_outline, color: AppColors.white54);
+                  },
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

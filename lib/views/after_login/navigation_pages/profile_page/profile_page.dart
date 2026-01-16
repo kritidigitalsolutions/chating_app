@@ -1,27 +1,31 @@
 import 'package:chat_app/res/app_colors.dart';
+import 'package:chat_app/utils/button.dart';
 import 'package:chat_app/utils/textStyle.dart';
 import 'package:chat_app/utils/text_field.dart';
+import 'package:chat_app/view_model/after_login_controller/profile_controller/profile_controller.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class SetupProfilePage extends StatelessWidget {
-  const SetupProfilePage({super.key});
+  SetupProfilePage({super.key});
+
+  final ProfileEditController ctr = Get.put(ProfileEditController());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topRight,
             end: Alignment.bottomLeft,
             colors: [
               AppColors.graPurple1,
-              AppColors.gradientBlack.withAlpha(210),
-              AppColors.gradientBlack.withAlpha(210),
-              AppColors.gradientBlack.withAlpha(210),
-
-              AppColors.gradientBlue.withAlpha(30),
+              AppColors.gradientBlack,
+              AppColors.balckBlue,
             ],
           ),
         ),
@@ -29,10 +33,6 @@ class SetupProfilePage extends StatelessWidget {
           child: Stack(
             children: [
               SingleChildScrollView(
-                // padding: const EdgeInsets.symmetric(
-                //   horizontal: 20,
-                //   vertical: 16,
-                // ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -47,7 +47,7 @@ class SetupProfilePage extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: const [
                                 Text(
-                                  "Set Up Your Profile",
+                                  "Edit Your Profile",
                                   style: TextStyle(
                                     fontSize: 26,
                                     fontWeight: FontWeight.w600,
@@ -65,16 +65,24 @@ class SetupProfilePage extends StatelessWidget {
                               ],
                             ),
                           ),
-                          Positioned(
-                            right: 15,
-                            top: 50,
-                            child: const CircleAvatar(
-                              radius: 45,
-                              backgroundColor: Color(0xffd46cff),
-                              child: CircleAvatar(
-                                radius: 43,
-                                backgroundImage: NetworkImage(
-                                  "https://i.pravatar.cc/150?img=12",
+
+                          GestureDetector(
+                            onTap: () => ctr.pickImage(),
+                            child: Obx(
+                              () => CircleAvatar(
+                                radius: 45,
+                                backgroundColor: const Color(0xffd46cff),
+                                child: CircleAvatar(
+                                  radius: 43,
+                                  backgroundImage:
+                                      ctr.selectedImage.value != null
+                                      ? FileImage(
+                                          ctr.selectedImage.value!,
+                                        ) // 📷 picked image
+                                      : const AssetImage(
+                                              "assets/avatar/boy.png",
+                                            )
+                                            as ImageProvider, // 🌐 default image
                                 ),
                               ),
                             ),
@@ -100,19 +108,19 @@ class SetupProfilePage extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 12.0),
                       child: Column(
                         children: [
-                          _inputField("Enter your name"),
-                          _inputField("Age"),
-                          _inputField("Gender"),
-                          _inputField("Location"),
+                          _inputField("Enter your name", ctr.nameCtr),
+                          _inputField("Enter your username", ctr.userNameCtr),
+                          _inputField("Age", ctr.ageCtr),
+                          _inputField("Gender", ctr.genderCtr),
+                          _inputField("Location", ctr.locationCtr),
 
                           Container(
                             padding: EdgeInsets.all(12),
                             decoration: BoxDecoration(
-                              color: AppColors.gradientBlack,
                               borderRadius: BorderRadius.circular(15),
                               border: Border.all(
                                 width: 1,
-                                color: AppColors.white54,
+                                color: AppColors.graPurple1,
                               ),
                             ),
                             child: Column(
@@ -126,6 +134,7 @@ class SetupProfilePage extends StatelessWidget {
                                   ),
                                 ),
                                 AppTextField(
+                                  controller: ctr.bioCtr,
                                   hint: "Looking for relationship!...",
                                   maxLines: 4,
                                 ),
@@ -137,11 +146,10 @@ class SetupProfilePage extends StatelessWidget {
                           Container(
                             padding: EdgeInsets.all(12),
                             decoration: BoxDecoration(
-                              color: AppColors.gradientBlack,
                               borderRadius: BorderRadius.circular(15),
                               border: Border.all(
                                 width: 1,
-                                color: AppColors.white54,
+                                color: AppColors.graPurple1,
                               ),
                             ),
                             child: Column(
@@ -155,6 +163,7 @@ class SetupProfilePage extends StatelessWidget {
                                   ),
                                 ),
                                 AppTextField(
+                                  controller: ctr.interestCtr,
                                   hint: "Looking for relationship!...",
                                   maxLines: 4,
                                 ),
@@ -191,12 +200,45 @@ class SetupProfilePage extends StatelessWidget {
                                 Wrap(
                                   spacing: 10,
                                   runSpacing: 10,
-                                  children: const [
-                                    _ChoiceChip(label: "Friends"),
-                                    _ChoiceChip(label: "Relationship"),
-                                    _ChoiceChip(label: "Casual Chat"),
-                                    _ChoiceChip(label: "Fun"),
-                                  ],
+                                  children: List.generate(
+                                    ctr.lookingFor.length,
+                                    (index) {
+                                      final type = ctr.lookingFor[index];
+
+                                      return Obx(() {
+                                        final isSelected = ctr.selectedFor
+                                            .contains(type);
+                                        return GestureDetector(
+                                          onTap: () {
+                                            ctr.toggle(type);
+                                          },
+                                          child: Container(
+                                            padding: const EdgeInsets.symmetric(
+                                              horizontal: 14,
+                                              vertical: 8,
+                                            ),
+                                            decoration: BoxDecoration(
+                                              color: isSelected
+                                                  ? AppColors.mainColors
+                                                  : Colors.transparent,
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                              border: Border.all(
+                                                color: Colors.white24,
+                                              ),
+                                            ),
+                                            child: Text(
+                                              type,
+                                              style: const TextStyle(
+                                                color: Colors.white70,
+                                                fontSize: 12,
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      });
+                                    },
+                                  ),
                                 ),
                               ],
                             ),
@@ -205,28 +247,15 @@ class SetupProfilePage extends StatelessWidget {
                           const SizedBox(height: 18),
 
                           // IMAGES
-                          _uploadGrid(),
+                          _uploadGrid(ctr),
 
                           const SizedBox(height: 24),
 
                           // SAVE BUTTON
                           Center(
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 40,
-                                vertical: 12,
-                              ),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(30),
-                                border: Border.all(color: Colors.white30),
-                              ),
-                              child: const Text(
-                                "Save Changes",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 14,
-                                ),
-                              ),
+                            child: CustomElevetedButton(
+                              text: "Save Changes",
+                              onPressed: () {},
                             ),
                           ),
 
@@ -244,7 +273,7 @@ class SetupProfilePage extends StatelessWidget {
     );
   }
 
-  Widget _inputField(String label, {int maxLines = 1}) {
+  Widget _inputField(String label, TextEditingController ctr) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 14),
       child: Column(
@@ -255,39 +284,22 @@ class SetupProfilePage extends StatelessWidget {
             style: textStyle15(FontWeight.w600, color: AppColors.white54),
           ),
           SizedBox(height: 10),
-          TextField(
-            maxLines: maxLines,
-            style: const TextStyle(color: Colors.white),
-            decoration: InputDecoration(
-              filled: true,
-              fillColor: AppColors.gradientBlack,
-              contentPadding: const EdgeInsets.symmetric(
-                horizontal: 14,
-                vertical: 14,
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
-                borderSide: const BorderSide(color: Colors.white24),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
-                borderSide: const BorderSide(color: Color(0xffd46cff)),
-              ),
-            ),
-          ),
+          TextFieldWithBorder(controller: ctr),
         ],
       ),
     );
   }
 
-  Widget _uploadGrid() {
+  Widget _uploadGrid(ProfileEditController ctr) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
-          "Upload 5-6 Pics for your Profile Pictures",
+          "Upload 5–6 Pics for your Profile Pictures",
           style: TextStyle(color: Colors.white, fontSize: 14),
         ),
         const SizedBox(height: 12),
+
         GridView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
@@ -297,48 +309,65 @@ class SetupProfilePage extends StatelessWidget {
             crossAxisSpacing: 12,
             mainAxisSpacing: 12,
           ),
-          itemBuilder: (_, __) => DottedBorder(
-            options: RoundedRectDottedBorderOptions(
-              radius: Radius.circular(10),
-              borderPadding: EdgeInsets.all(2),
-              color: AppColors.white54,
-              gradient: LinearGradient(
-                colors: [
-                  AppColors.white54,
-                  AppColors.graPurple1,
-                  AppColors.graPurple2,
-                ],
+          itemBuilder: (context, index) {
+            return GestureDetector(
+              onTap: () => ctr.pickSixImage(index),
+              child: Obx(
+                () => Stack(
+                  children: [
+                    DottedBorder(
+                      options: RoundedRectDottedBorderOptions(
+                        radius: const Radius.circular(10),
+                        borderPadding: const EdgeInsets.all(2),
+                        color: AppColors.white54,
+                        gradient: const LinearGradient(
+                          colors: [
+                            AppColors.white54,
+                            AppColors.graPurple1,
+                            AppColors.graPurple2,
+                          ],
+                        ),
+                      ),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.white.withOpacity(0.05),
+                        ),
+                        child: ctr.images[index] == null
+                            ? const Center(
+                                child: Icon(
+                                  Icons.add,
+                                  color: Colors.white54,
+                                  size: 28,
+                                ),
+                              )
+                            : ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: Image.file(
+                                  ctr.images[index]!, // ✅ Rx accessed here
+                                  fit: BoxFit.cover,
+                                  width: double.infinity,
+                                  height: double.infinity,
+                                ),
+                              ),
+                      ),
+                    ),
+
+                    if (ctr.images[index] != null)
+                      Positioned(
+                        top: 0,
+                        right: 0,
+                        child: iconButton(Icons.close, AppColors.white54, () {
+                          ctr.remove(index);
+                        }),
+                      ),
+                  ],
+                ),
               ),
-            ),
-            child: Container(
-              decoration: BoxDecoration(
-                color: AppColors.gradientBlack.withAlpha(100),
-                borderRadius: BorderRadius.circular(10),
-              ),
-            ),
-          ),
+            );
+          },
         ),
       ],
-    );
-  }
-}
-
-class _ChoiceChip extends StatelessWidget {
-  final String label;
-  const _ChoiceChip({required this.label});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Colors.white24),
-      ),
-      child: Text(
-        label,
-        style: const TextStyle(color: Colors.white70, fontSize: 12),
-      ),
     );
   }
 }

@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ConfirmPage extends StatelessWidget {
-  const ConfirmPage({super.key});
+  ConfirmPage({super.key});
+
+  final data = Get.arguments;
 
   @override
   Widget build(BuildContext context) {
@@ -141,37 +143,41 @@ class ConfirmPage extends StatelessWidget {
                           const SizedBox(height: 16),
 
                           /// WALLET BUTTON
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 16,
-                              vertical: 8,
-                            ),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              gradient: const LinearGradient(
-                                colors: [Color(0xFF6A1B9A), Color(0xFF8E44AD)],
+                          if (data != "ROOM-LIST")
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 8,
                               ),
-                            ),
-                            child: const Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Icon(
-                                  Icons.account_balance_wallet,
-                                  size: 16,
-                                  color: Colors.white,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                gradient: const LinearGradient(
+                                  colors: [
+                                    Color(0xFF6A1B9A),
+                                    Color(0xFF8E44AD),
+                                  ],
                                 ),
-                                SizedBox(width: 6),
-                                Text(
-                                  "My Wallet",
-                                  style: TextStyle(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w500,
+                              ),
+                              child: const Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(
+                                    Icons.account_balance_wallet,
+                                    size: 16,
                                     color: Colors.white,
                                   ),
-                                ),
-                              ],
+                                  SizedBox(width: 6),
+                                  Text(
+                                    "My Wallet",
+                                    style: TextStyle(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
                         ],
                       ),
                     ),
@@ -192,6 +198,33 @@ class ConfirmPage extends StatelessWidget {
                     ),
                   ],
                 ),
+                SizedBox(height: 20),
+                if (data == "ROOM-LIST")
+                  GestureDetector(
+                    onTap: () {
+                      Get.toNamed(AppRoutes.choosePlan);
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 8,
+                      ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        gradient: const LinearGradient(
+                          colors: [Color(0xFF6A1B9A), Color(0xFF8E44AD)],
+                        ),
+                      ),
+                      child: Text(
+                        "Subscribe",
+                        style: TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
               ],
             ),
           ),

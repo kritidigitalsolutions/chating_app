@@ -1,6 +1,8 @@
 import 'package:chat_app/res/app_colors.dart';
+import 'package:chat_app/routes/app_routes.dart';
 import 'package:chat_app/utils/textStyle.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class ChatListPage extends StatelessWidget {
   const ChatListPage({super.key});
@@ -69,55 +71,60 @@ class ChatCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 14),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(14),
-        gradient: const LinearGradient(
-          colors: [Color(0xffb76cff), Color(0xff3b1d5f)],
-        ),
-      ),
-      padding: const EdgeInsets.all(1.2),
+    return GestureDetector(
+      onTap: () {
+        Get.toNamed(AppRoutes.chatPage);
+      },
       child: Container(
-        padding: const EdgeInsets.all(12),
+        margin: const EdgeInsets.only(bottom: 14),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(13),
-          color: const Color(0xff0f0f1f),
+          borderRadius: BorderRadius.circular(14),
+          gradient: const LinearGradient(
+            colors: [Color(0xffb76cff), Color(0xff3b1d5f)],
+          ),
         ),
-        child: Row(
-          children: [
-            const CircleAvatar(
-              radius: 22,
-              backgroundImage: AssetImage("assets/images/user.jpg"),
-            ),
-            const SizedBox(width: 12),
-
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  Text(
-                    "Vandana Singh",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  SizedBox(height: 4),
-                  Text(
-                    "Hi, how r u?",
-                    style: TextStyle(color: Colors.white60, fontSize: 12),
-                  ),
-                ],
+        padding: const EdgeInsets.all(1.2),
+        child: Container(
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(13),
+            color: const Color(0xff0f0f1f),
+          ),
+          child: Row(
+            children: [
+              const CircleAvatar(
+                radius: 22,
+                backgroundImage: AssetImage("assets/images/user.jpg"),
               ),
-            ),
+              const SizedBox(width: 12),
 
-            const Text(
-              "2:30pm",
-              style: TextStyle(color: Colors.white54, fontSize: 11),
-            ),
-          ],
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: const [
+                    Text(
+                      "Vandana Singh",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    SizedBox(height: 4),
+                    Text(
+                      "Hi, how r u?",
+                      style: TextStyle(color: Colors.white60, fontSize: 12),
+                    ),
+                  ],
+                ),
+              ),
+
+              const Text(
+                "2:30pm",
+                style: TextStyle(color: Colors.white54, fontSize: 11),
+              ),
+            ],
+          ),
         ),
       ),
     );

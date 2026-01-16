@@ -4,8 +4,14 @@ import 'package:chat_app/views/after_login/navigation_pages/liked_profile_page/l
 import 'package:chat_app/views/after_login/navigation_pages/live_streaming_pages/joined_streaming_pages.dart';
 import 'package:chat_app/views/after_login/navigation_pages/live_streaming_pages/stream_join_page.dart';
 import 'package:chat_app/views/after_login/navigation_pages/live_streaming_pages/streaming_list_page.dart';
+import 'package:chat_app/views/after_login/navigation_pages/room_pages/choose_plan_page.dart';
 import 'package:chat_app/views/after_login/navigation_pages/room_pages/confirm_page.dart';
+import 'package:chat_app/views/after_login/navigation_pages/room_pages/friends_room_page.dart';
+import 'package:chat_app/views/after_login/navigation_pages/room_pages/room_list_page.dart';
 import 'package:chat_app/views/after_login/navigation_pages/room_pages/video_call_page.dart';
+import 'package:chat_app/views/after_login/wallet_pages/buy_coin_page.dart';
+import 'package:chat_app/views/after_login/wallet_pages/coin_history_page.dart';
+import 'package:chat_app/views/after_login/wallet_pages/convert_coin_page.dart';
 import 'package:chat_app/views/after_login/wallet_pages/wallet_page.dart';
 import 'package:chat_app/views/after_login/home_pages/home/home_screen.dart';
 import 'package:chat_app/views/after_login/home_pages/chat_pages/chat_page.dart';
@@ -51,5 +57,13 @@ class AppPages {
     GetPage(name: AppRoutes.likedUserDetails, page: () => LikedUserPage()),
     GetPage(name: AppRoutes.confirmPage, page: () => ConfirmPage()),
     GetPage(name: AppRoutes.videoCallPage, page: () => VideoCallPage()),
+
+    GetPage(name: AppRoutes.roomListPage, page: () => RoomListPage()),
+    GetPage(name: AppRoutes.choosePlan, page: () => ChoosePlanPage()),
+
+    GetPage(name: AppRoutes.coinHistory, page: () => CoinsHistoryPage()),
+    GetPage(name: AppRoutes.convertCoin, page: () => ConvertCoinsPage()),
+    GetPage(name: AppRoutes.buyCoin, page: () => BuyCoinsPage()),
+    GetPage(name: AppRoutes.friendRoom, page: () => FriendsRoomPage()),
   ];
 }

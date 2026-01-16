@@ -32,4 +32,11 @@ class AppRoutes {
   static const String confirmPage = "/confirmPage";
 
   static const String videoCallPage = "/videoCallPage";
+  static const String roomListPage = "/roomListPage";
+  static const String choosePlan = "/choosePlan";
+  static const String coinHistory = "/coinHistory";
+  static const String convertCoin = "/convertCoin";
+  static const String buyCoin = "/buyCoin";
+
+  static const String friendRoom = "/friendRoom";
 }

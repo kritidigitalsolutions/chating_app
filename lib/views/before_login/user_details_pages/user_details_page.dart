@@ -1,6 +1,7 @@
 import 'package:chat_app/res/app_colors.dart';
 import 'package:chat_app/routes/app_routes.dart';
 import 'package:chat_app/utils/button.dart';
+import 'package:chat_app/utils/custom_snakebar.dart';
 import 'package:chat_app/utils/textStyle.dart';
 import 'package:chat_app/utils/text_field.dart';
 import 'package:chat_app/view_model/before_login_controller/user_details_controller/user_controller.dart';
@@ -16,9 +17,10 @@ class UserDetailsPage extends StatelessWidget {
 
   final data = Get.arguments;
 
+  final ctr = Get.put(ProfileDetailsController());
+
   @override
   Widget build(BuildContext context) {
-    final ctr = Get.put(ProfileDetailsController());
     print(data);
     return Scaffold(
       body: Stack(
@@ -44,12 +46,23 @@ class UserDetailsPage extends StatelessWidget {
 
                   _languageDropdown(),
                   const SizedBox(height: 16),
-                  _uploadGrid(),
+                  if (data == "PHOTO") _uploadGrid(ctr),
                   const SizedBox(height: 16),
                   gradientButton(
                     width: 200,
                     text: "Continue",
                     onTap: () {
+                      final error = ctr.validateTextFields();
+
+                      if (error != null) {
+                        showErrorSnackbar(
+                          title: "Invalid Details",
+                          message: error,
+                        );
+
+                        return;
+                      }
+
                       Get.toNamed(AppRoutes.homePage);
                     },
                   ),
@@ -99,13 +112,16 @@ class UserDetailsPage extends StatelessWidget {
                   : _AvatarImage(ctr, mode),
               const SizedBox(height: 16),
               CustomTextField(
+                controller: ctr.nameCtr,
                 hint: "Full Name",
                 suffix: _greenChip("Show on Profile"),
               ),
+
               const SizedBox(height: 10),
-              CustomTextField(hint: "Username"),
+              CustomTextField(controller: ctr.userNameCtr, hint: "Username"),
               const SizedBox(height: 10),
               CustomTextField(
+                controller: ctr.ageCtr,
                 hint: "Age",
                 keyboardType: TextInputType.number,
                 inputFormatters: [
@@ -115,10 +131,40 @@ class UserDetailsPage extends StatelessWidget {
                 suffix: _redChip("hide"),
               ),
               const SizedBox(height: 10),
-              CustomTextField(hint: "Gender"),
+              CustomTextField(controller: ctr.genderCtr, hint: "Gender"),
 
               const SizedBox(height: 16),
-              _bioBox(),
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: AppColors.white54, width: 1.5),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Add Bio",
+                      style: TextStyle(color: Colors.white, fontSize: 14),
+                    ),
+                    TextField(
+                      cursorColor: AppColors.white54,
+                      controller: ctr.bioCtr,
+                      maxLines: 3,
+                      style: const TextStyle(color: Colors.white),
+                      decoration: InputDecoration(
+                        hintText: "Looking for relationship",
+                        hintStyle: textStyle14(
+                          FontWeight.w400,
+                          color: AppColors.white54,
+                        ),
+                        border: InputBorder.none,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
         ),
@@ -204,34 +250,6 @@ class UserDetailsPage extends StatelessWidget {
     );
   }
 
-  Widget _bioBox() {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.white54, width: 1.5),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text("Add Bio", style: TextStyle(color: Colors.white, fontSize: 14)),
-          TextField(
-            cursorColor: AppColors.white54,
-
-            maxLines: 3,
-            style: const TextStyle(color: Colors.white),
-            decoration: InputDecoration(
-              hintText: "Looking for relationship",
-              hintStyle: textStyle14(FontWeight.w400, color: AppColors.white54),
-              border: InputBorder.none,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget _languageDropdown() {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
@@ -250,14 +268,16 @@ class UserDetailsPage extends StatelessWidget {
   }
 
   /// Upload grid
-  Widget _uploadGrid() {
+  Widget _uploadGrid(ProfileDetailsController ctr) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
-          "Upload 3-4 Pics for your Profile Pictures",
+          "Upload 5–6 Pics for your Profile Pictures",
           style: TextStyle(color: Colors.white, fontSize: 14),
         ),
         const SizedBox(height: 12),
+
         GridView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
@@ -267,21 +287,63 @@ class UserDetailsPage extends StatelessWidget {
             crossAxisSpacing: 12,
             mainAxisSpacing: 12,
           ),
-          itemBuilder: (_, __) => DottedBorder(
-            options: RoundedRectDottedBorderOptions(
-              radius: Radius.circular(10),
-              borderPadding: EdgeInsets.all(2),
-              color: AppColors.white54,
-              gradient: LinearGradient(
-                colors: [
-                  AppColors.white54,
-                  AppColors.graPurple1,
-                  AppColors.graPurple2,
-                ],
+          itemBuilder: (context, index) {
+            return GestureDetector(
+              onTap: () => ctr.pickSixImage(index),
+              child: Obx(
+                () => Stack(
+                  children: [
+                    DottedBorder(
+                      options: RoundedRectDottedBorderOptions(
+                        radius: const Radius.circular(10),
+                        borderPadding: const EdgeInsets.all(2),
+                        color: AppColors.white54,
+                        gradient: const LinearGradient(
+                          colors: [
+                            AppColors.white54,
+                            AppColors.graPurple1,
+                            AppColors.graPurple2,
+                          ],
+                        ),
+                      ),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.white.withOpacity(0.05),
+                        ),
+                        child: ctr.images[index] == null
+                            ? const Center(
+                                child: Icon(
+                                  Icons.add,
+                                  color: Colors.white54,
+                                  size: 28,
+                                ),
+                              )
+                            : ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: Image.file(
+                                  ctr.images[index]!, // ✅ Rx accessed here
+                                  fit: BoxFit.cover,
+                                  width: double.infinity,
+                                  height: double.infinity,
+                                ),
+                              ),
+                      ),
+                    ),
+
+                    if (ctr.images[index] != null)
+                      Positioned(
+                        top: 0,
+                        right: 0,
+                        child: iconButton(Icons.close, AppColors.white54, () {
+                          ctr.remove(index);
+                        }),
+                      ),
+                  ],
+                ),
               ),
-            ),
-            child: Container(decoration: BoxDecoration()),
-          ),
+            );
+          },
         ),
       ],
     );

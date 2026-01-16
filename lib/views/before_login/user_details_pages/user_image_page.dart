@@ -22,74 +22,79 @@ class UserImagePage extends StatelessWidget {
           ),
         ),
         child: SafeArea(
-          child: Column(
-            children: [
-              const SizedBox(height: 40),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                const SizedBox(height: 40),
 
-              /// TITLE
-              RichText(
-                textAlign: TextAlign.center,
-                text: TextSpan(
-                  children: [
-                    TextSpan(
-                      text: "Get ready to set\nup your ",
-                      style: textStyle30(
-                        FontWeight.w600,
-                        color: AppColors.white,
+                /// TITLE
+                RichText(
+                  textAlign: TextAlign.center,
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: "Get ready to set\nup your ",
+                        style: textStyle30(
+                          FontWeight.w600,
+                          color: AppColors.white,
+                        ),
                       ),
-                    ),
-                    TextSpan(
-                      text: "profile!",
-                      style: textStyle30(
-                        FontWeight.w600,
-                        color: AppColors.mainColors,
+                      TextSpan(
+                        text: "profile!",
+                        style: textStyle30(
+                          FontWeight.w600,
+                          color: AppColors.mainColors,
+                        ),
                       ),
+                    ],
+                  ),
+                ),
+
+                const SizedBox(height: 40),
+
+                /// REAL PHOTO MODE
+                _profileOption(
+                  borderColor: AppColors.mainColors,
+                  avatar: CircleAvatar(
+                    radius: 52,
+                    backgroundImage: AssetImage("assets/images/user.jpg"),
+                  ),
+                  text: "Real Photo Mode",
+                  onTap: () {
+                    Get.toNamed(AppRoutes.userDetails, arguments: "PHOTO");
+                  },
+                ),
+
+                const SizedBox(height: 32),
+
+                /// AVATAR MODE
+                _profileOption(
+                  borderColor: AppColors.mainColors,
+                  avatar: CircleAvatar(
+                    radius: 52,
+                    backgroundImage: AssetImage("assets/avatar/one.png"),
+                  ),
+                  text: "Real Photo Mode",
+                  onTap: () {
+                    Get.toNamed(AppRoutes.userDetails, arguments: "AVATAR");
+                  },
+                ),
+
+                SizedBox(height: 80),
+
+                /// FOOTER
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 16),
+                  child: Text(
+                    "Terms of Service | Privacy Policy",
+                    style: textStyle11(
+                      FontWeight.w500,
+                      color: AppColors.white54,
                     ),
-                  ],
+                  ),
                 ),
-              ),
-
-              const SizedBox(height: 40),
-
-              /// REAL PHOTO MODE
-              _profileOption(
-                borderColor: AppColors.mainColors,
-                avatar: CircleAvatar(
-                  radius: 52,
-                  backgroundImage: AssetImage("assets/images/user.jpg"),
-                ),
-                text: "Real Photo Mode",
-                onTap: () {
-                  Get.toNamed(AppRoutes.userDetails, arguments: "PHOTO");
-                },
-              ),
-
-              const SizedBox(height: 32),
-
-              /// AVATAR MODE
-              _profileOption(
-                borderColor: AppColors.mainColors,
-                avatar: CircleAvatar(
-                  radius: 52,
-                  backgroundImage: AssetImage("assets/avatar/one.png"),
-                ),
-                text: "Real Photo Mode",
-                onTap: () {
-                  Get.toNamed(AppRoutes.userDetails, arguments: "AVATAR");
-                },
-              ),
-
-              const Spacer(),
-
-              /// FOOTER
-              Padding(
-                padding: const EdgeInsets.only(bottom: 16),
-                child: Text(
-                  "Terms of Service | Privacy Policy",
-                  style: textStyle11(FontWeight.w500, color: AppColors.white54),
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

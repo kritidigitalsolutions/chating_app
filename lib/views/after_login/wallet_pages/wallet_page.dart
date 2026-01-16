@@ -1,5 +1,7 @@
+import 'package:chat_app/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:chat_app/res/app_colors.dart';
+import 'package:get/get.dart';
 
 class WalletPage extends StatelessWidget {
   const WalletPage({super.key});
@@ -91,29 +93,34 @@ class WalletPage extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          _iconItem(Icons.card_giftcard, "Gift Sent"),
-          _iconItem(Icons.videocam, "Video Call"),
-          _iconItem(Icons.history, "Coins History"),
-          _iconItem(Icons.wifi_tethering, "Live Streaming"),
+          _iconItem(Icons.card_giftcard, "Gift Sent", () {}),
+          _iconItem(Icons.videocam, "Video Call", () {}),
+          _iconItem(Icons.history, "Coins History", () {
+            Get.toNamed(AppRoutes.coinHistory);
+          }),
+          _iconItem(Icons.wifi_tethering, "Live Streaming", () {}),
         ],
       ),
     );
   }
 
-  Widget _iconItem(IconData icon, String label) {
-    return Column(
-      children: [
-        CircleAvatar(
-          radius: 22,
-          backgroundColor: Colors.white12,
-          child: Icon(icon, color: Colors.white),
-        ),
-        const SizedBox(height: 6),
-        Text(
-          label,
-          style: const TextStyle(color: Colors.white70, fontSize: 10),
-        ),
-      ],
+  Widget _iconItem(IconData icon, String label, VoidCallback onTap) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Column(
+        children: [
+          CircleAvatar(
+            radius: 22,
+            backgroundColor: Colors.white12,
+            child: Icon(icon, color: Colors.white),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            label,
+            style: const TextStyle(color: Colors.white70, fontSize: 10),
+          ),
+        ],
+      ),
     );
   }
 
@@ -316,20 +323,25 @@ class WalletPage extends StatelessWidget {
   }
 
   Widget _gradientButton(String text) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          colors: [Color(0xff9B5CFF), Color(0xff5B9DFF)],
+    return GestureDetector(
+      onTap: () {
+        Get.toNamed(AppRoutes.convertCoin);
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(
+            colors: [Color(0xff9B5CFF), Color(0xff5B9DFF)],
+          ),
+          borderRadius: BorderRadius.circular(20),
         ),
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Text(
-        text,
-        style: const TextStyle(
-          color: Colors.white,
-          fontWeight: FontWeight.bold,
-          fontSize: 12,
+        child: Text(
+          text,
+          style: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 12,
+          ),
         ),
       ),
     );

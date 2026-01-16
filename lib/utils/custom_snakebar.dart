@@ -6,6 +6,7 @@ void showSuccessSnackbar({required String title, required String message}) {
   _showSnackbar(
     title: title,
     message: message,
+    sec: 3,
     icon: Icons.check_circle,
     gradientColors: const [Color(0xFF2ECC71), Color(0xFF27AE60)],
   );
@@ -17,6 +18,7 @@ void showErrorSnackbar({required String title, required String message}) {
     title: title,
     message: message,
     icon: Icons.error,
+    sec: 6,
     gradientColors: const [Color(0xFFE74C3C), Color(0xFFC0392B)],
   );
 }
@@ -26,6 +28,7 @@ void _showSnackbar({
   required String title,
   required String message,
   required IconData icon,
+  required int sec,
   required List<Color> gradientColors,
 }) {
   Get.rawSnackbar(
@@ -33,7 +36,7 @@ void _showSnackbar({
     backgroundColor: Colors.transparent,
     margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
     borderRadius: 12,
-    duration: const Duration(seconds: 3),
+    duration: Duration(seconds: sec),
     messageText: Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       decoration: BoxDecoration(
