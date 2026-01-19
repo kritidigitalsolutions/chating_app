@@ -100,7 +100,7 @@ class LikeCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
-                  "  Vandana Singh ",
+                  "Vandana Singh ",
                   style: textStyle15(FontWeight.w600, color: AppColors.white),
                 ),
                 Text(

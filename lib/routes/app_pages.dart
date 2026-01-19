@@ -7,7 +7,7 @@ import 'package:chat_app/views/after_login/navigation_pages/live_streaming_pages
 import 'package:chat_app/views/after_login/navigation_pages/room_pages/choose_plan_page.dart';
 import 'package:chat_app/views/after_login/navigation_pages/room_pages/confirm_page.dart';
 import 'package:chat_app/views/after_login/navigation_pages/room_pages/friends_room_page.dart';
-import 'package:chat_app/views/after_login/navigation_pages/room_pages/room_list_page.dart';
+import 'package:chat_app/views/after_login/navigation_pages/room_pages/personal_room_list_page.dart';
 import 'package:chat_app/views/after_login/navigation_pages/room_pages/video_call_page.dart';
 import 'package:chat_app/views/after_login/wallet_pages/buy_coin_page.dart';
 import 'package:chat_app/views/after_login/wallet_pages/coin_history_page.dart';

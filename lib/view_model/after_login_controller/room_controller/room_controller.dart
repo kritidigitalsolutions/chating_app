@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 class RoomTypeChatController extends GetxController {
@@ -79,4 +82,19 @@ class ChatMessage {
     required this.isMe,
     required this.time,
   });
+}
+
+class RoomCreatingController extends GetxController {
+  final ImagePicker picker = ImagePicker();
+
+  final Rx<File?> selectedImage = Rx<File?>(null);
+
+  Future<void> pickImage() async {
+    final XFile? image = await picker.pickImage(
+      source: ImageSource.gallery,
+      imageQuality: 80,
+    );
+
+    // if(pick)
+  }
 }

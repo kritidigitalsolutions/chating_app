@@ -2,6 +2,7 @@ import 'package:chat_app/res/app_colors.dart';
 import 'package:chat_app/routes/app_routes.dart';
 import 'package:chat_app/utils/button.dart';
 import 'package:chat_app/utils/textStyle.dart';
+import 'package:chat_app/view_model/after_login_controller/home_controller/home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -13,6 +14,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final HomeController controller = Get.put(HomeController());
   @override
   void initState() {
     // TODO: implement initState
@@ -94,22 +96,69 @@ class _HomeScreenState extends State<HomeScreen> {
                 SizedBox(height: 25),
 
                 // main body
-                GestureDetector(
-                  onTap: () {
-                    Get.toNamed(AppRoutes.contactPage);
-                  },
-                  child: _chatBox(mediaQuery),
+                SizedBox(
+                  height: mediaQuery.height * 0.5,
+                  child: Stack(
+                    children: [
+                      /// CHAT PAGES
+                      Obx(
+                        () => PageView.builder(
+                          controller: controller.pageController,
+                          itemCount: controller.chatList.length,
+                          onPageChanged: controller.currentIndex,
+                          itemBuilder: (context, index) {
+                            return GestureDetector(
+                              onTap: () {
+                                Get.toNamed(
+                                  AppRoutes.contactPage,
+                                  arguments: controller.chatList[index],
+                                );
+                              },
+                              child: _chatBox(
+                                mediaQuery,
+                                controller.chatList[index],
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+
+                      /// LOADER OVERLAY
+                      Obx(
+                        () => controller.isRefreshing.value
+                            ? Container(
+                                color: Colors.black.withOpacity(0.4),
+                                child: const Center(
+                                  child: CircularProgressIndicator(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              )
+                            : const SizedBox.shrink(),
+                      ),
+                    ],
+                  ),
                 ),
+
                 SizedBox(height: 25),
 
                 // feature icon
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    featureIcon("assets/icons/refresh.png", () {}),
-                    featureIcon("assets/icons/Group.png", () {}),
+                    /// REFRESH
+                    featureIcon("assets/icons/refresh.png", () {
+                      controller.refreshChats();
+                    }),
+
+                    /// NEXT CHAT
+                    featureIcon("assets/icons/Group.png", () {
+                      controller.nextChat();
+                    }),
                     featureIcon("assets/icons/heart.png", () {}),
-                    featureIcon("assets/icons/bubble-chat.png", () {}),
+                    featureIcon("assets/icons/bubble-chat.png", () {
+                      Get.toNamed(AppRoutes.chatPage);
+                    }),
                     featureIcon("assets/icons/bookmark.png", () {}),
                   ],
                 ),
@@ -180,15 +229,16 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _chatBox(Size size) {
+  Widget _chatBox(Size size, Map<String, String> data) {
     return Container(
       padding: EdgeInsets.all(15),
+      margin: EdgeInsets.symmetric(horizontal: 10),
       width: double.infinity,
       height: size.height * 0.5,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
         image: DecorationImage(
-          image: AssetImage("assets/images/couple-park.png"),
+          image: AssetImage(data["image"] ?? ''),
           fit: BoxFit.cover,
         ),
       ),
@@ -209,7 +259,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       Icon(Icons.location_on_outlined),
                       SizedBox(width: 2),
                       Text(
-                        "4 KM",
+                        data["distance"] ?? '',
                         style: textStyle13(
                           FontWeight.w500,
                           color: AppColors.black,
@@ -220,7 +270,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               Spacer(),
-              _boxLable("Active", AppColors.green),
+              _boxLable(data["status"] ?? '', AppColors.green),
             ],
           ),
           Spacer(),
@@ -229,24 +279,24 @@ class _HomeScreenState extends State<HomeScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Ankita 19",
+                "${data["name"]} ${data["age"]}",
                 style: textStyle30(FontWeight.bold, color: AppColors.white),
               ),
               Text(
-                "@its_ankita",
+                data["username"] ?? '',
                 style: textStyle24(FontWeight.bold, color: AppColors.white54),
               ),
               Row(
                 children: [
                   Text(
-                    "Looking for relationship!...",
+                    data["des"] ?? '',
                     style: textStyle14(
                       FontWeight.w600,
                       color: AppColors.white54,
                     ),
                   ),
                   Spacer(),
-                  _boxLable("See Profile", AppColors.graPurple1),
+                  _boxLable("See Profile", AppColors.mainColors),
                 ],
               ),
             ],

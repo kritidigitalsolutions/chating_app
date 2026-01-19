@@ -152,27 +152,6 @@ class SelectRoomSpace extends StatelessWidget {
                   style: textStyle13(FontWeight.w600, color: AppColors.white54),
                 ),
                 SizedBox(height: 6),
-                GestureDetector(
-                  onTap: () {
-                    Get.toNamed(AppRoutes.chatPage);
-                  },
-                  child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(width: 1, color: AppColors.graPurple1),
-                    ),
-                    child: Center(
-                      child: Text(
-                        'Enter Room',
-                        style: textStyle12(
-                          FontWeight.w400,
-                          color: AppColors.white54,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
               ],
             ),
 

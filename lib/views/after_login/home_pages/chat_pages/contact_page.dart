@@ -6,10 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ContactPage extends StatelessWidget {
-  const ContactPage({super.key});
+  ContactPage({super.key});
+  final data = Get.arguments;
 
   @override
   Widget build(BuildContext context) {
+    print(data);
     final mediaQuery = MediaQuery.of(context).size;
     return Scaffold(
       body: Container(
@@ -33,7 +35,7 @@ class ContactPage extends StatelessWidget {
               child: Column(
                 children: [
                   // user details
-                  _userDetails(mediaQuery),
+                  _userDetails(mediaQuery, data),
                   SizedBox(height: 15),
                   // Bio
                   Container(
@@ -53,10 +55,7 @@ class ContactPage extends StatelessWidget {
                             color: AppColors.white,
                           ),
                         ),
-                        AppTextField(
-                          hint: "Looking for relationship!...",
-                          maxLines: 4,
-                        ),
+                        AppTextField(hint: data["des"], maxLines: 4),
                       ],
                     ),
                   ),
@@ -129,7 +128,7 @@ class ContactPage extends StatelessWidget {
     );
   }
 
-  Widget _userDetails(Size size) {
+  Widget _userDetails(Size size, Map<String, dynamic> user) {
     return Container(
       height: size.height * 0.4,
       padding: EdgeInsets.all(12),
@@ -155,17 +154,14 @@ class ContactPage extends StatelessWidget {
                   ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(15),
-                    child: Image.asset(
-                      'assets/images/user.jpg',
-                      fit: BoxFit.cover,
-                    ),
+                    child: Image.asset(user["image"], fit: BoxFit.cover),
                   ),
                 ),
               ),
               Positioned(
                 top: 10,
                 right: 10,
-                child: _boxLable("Active", AppColors.green),
+                child: _boxLable(user["status"], AppColors.green),
               ),
               Positioned(
                 left: 0,
@@ -194,11 +190,11 @@ class ContactPage extends StatelessWidget {
               Column(
                 children: [
                   Text(
-                    "Ankita 19",
+                    "${user["name"]} ${user["age"]}",
                     style: textStyle15(FontWeight.bold, color: AppColors.white),
                   ),
                   Text(
-                    "@its_ankita",
+                    "${user["username"]}",
                     style: textStyle13(
                       FontWeight.bold,
                       color: AppColors.white54,
