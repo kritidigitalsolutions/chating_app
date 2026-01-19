@@ -104,7 +104,11 @@ class ContactPage extends StatelessWidget {
                             CircleAvatar(
                               radius: 15,
                               backgroundColor: AppColors.graPurple1,
-                              child: Image.asset("assets/icons/gift.png"),
+                              child: Image.asset(
+                                "assets/icons/gift.png",
+                                width: 20,
+                                height: 20,
+                              ),
                             ),
                             SizedBox(width: 5),
                             Text(
@@ -220,7 +224,12 @@ class ContactPage extends StatelessWidget {
                     ),
                     child: Row(
                       children: [
-                        Image.asset('assets/icons/bubble-chat.png'),
+                        Image.asset(
+                          'assets/icons/bubble-chat.png',
+                          width: 22,
+                          height: 22,
+                          color: AppColors.white,
+                        ),
                         SizedBox(width: 5),
                         Text(
                           "Chat",

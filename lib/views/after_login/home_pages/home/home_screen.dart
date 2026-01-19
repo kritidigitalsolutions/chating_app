@@ -4,6 +4,8 @@ import 'package:chat_app/utils/button.dart';
 import 'package:chat_app/utils/textStyle.dart';
 import 'package:chat_app/view_model/after_login_controller/home_controller/home_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -90,7 +92,15 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                     Spacer(),
-                    CircleAvatar(),
+                    GestureDetector(
+                      onTap: () {
+                        Get.toNamed(AppRoutes.profilePage);
+                      },
+                      child: CircleAvatar(
+                        radius: 25,
+                        backgroundImage: AssetImage("assets/images/user.jpg"),
+                      ),
+                    ),
                   ],
                 ),
                 SizedBox(height: 25),
@@ -105,7 +115,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         () => PageView.builder(
                           controller: controller.pageController,
                           itemCount: controller.chatList.length,
-                          onPageChanged: controller.currentIndex,
+                          onPageChanged: controller.currentIndex.call,
                           itemBuilder: (context, index) {
                             return GestureDetector(
                               onTap: () {
@@ -147,19 +157,32 @@ class _HomeScreenState extends State<HomeScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     /// REFRESH
-                    featureIcon("assets/icons/refresh.png", () {
+                    // featureIcon("assets/icons/refresh.png", () {
+                    //   controller.refreshChats();
+                    // }),
+
+                    // /// NEXT CHAT
+                    // featureIcon("assets/icons/Group.png", () {
+                    //   controller.nextChat();
+                    // }),
+                    // featureIcon("assets/icons/heart.png", () {}),
+                    // featureIcon("assets/icons/bubble-chat.png", () {
+                    //   Get.toNamed(AppRoutes.chatPage);
+                    // }),
+                    // featureIcon("assets/icons/bookmark.png", () {}),
+                    featureIcon(Icons.refresh_outlined, () {
                       controller.refreshChats();
                     }),
 
                     /// NEXT CHAT
-                    featureIcon("assets/icons/Group.png", () {
+                    featureIcon(Icons.close, () {
                       controller.nextChat();
                     }),
-                    featureIcon("assets/icons/heart.png", () {}),
-                    featureIcon("assets/icons/bubble-chat.png", () {
+                    featureIcon(Icons.favorite, () {}, color: AppColors.red),
+                    featureIcon(Icons.chat, () {
                       Get.toNamed(AppRoutes.chatPage);
                     }),
-                    featureIcon("assets/icons/bookmark.png", () {}),
+                    featureIcon(Icons.bookmark, () {}),
                   ],
                 ),
                 Spacer(),
@@ -184,12 +207,27 @@ class _HomeScreenState extends State<HomeScreen> {
                       _navigationItem("assets/icons/user.png", () {
                         Get.toNamed(AppRoutes.profilePage);
                       }),
-                      _navigationItem("assets/icons/heart_white.png", () {
+                      _navigationItem("assets/icons/heart.png", () {
                         Get.toNamed(AppRoutes.likedProfile);
                       }),
                       _navigationItem("assets/icons/bubble-chat.png", () {
                         Get.toNamed(AppRoutes.chatList);
                       }),
+                      // _navigationItem(Icons.room_service_outlined, () {
+                      //   Get.toNamed(AppRoutes.roomSpace);
+                      // }),
+                      // _navigationItem(Icons.stream_outlined, () {
+                      //   Get.toNamed(AppRoutes.streamingList);
+                      // }),
+                      // _navigationItem(FontAwesomeIcons.person, () {
+                      //   Get.toNamed(AppRoutes.profilePage);
+                      // }),
+                      // _navigationItem(Icons.favorite, () {
+                      //   Get.toNamed(AppRoutes.likedProfile);
+                      // }),
+                      // _navigationItem(Icons.chat_bubble_outline, () {
+                      //   Get.toNamed(AppRoutes.chatList);
+                      // }),
                     ],
                   ),
                 ),
@@ -323,20 +361,51 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // feature
 
-  Widget featureIcon(String image, VoidCallback onTap) {
+  // Widget featureIcon(String image, VoidCallback onTap) {
+  //   return GestureDetector(
+  //     onTap: onTap,
+  //     child: CircleAvatar(
+  //       radius: 25,
+  //       backgroundColor: AppColors.graPurple1,
+  //       child: Image.asset(image),
+  //     ),
+  //   );
+  // }
+
+  Widget featureIcon(
+    IconData icon,
+    VoidCallback onTap, {
+    Color color = AppColors.white,
+  }) {
     return GestureDetector(
       onTap: onTap,
       child: CircleAvatar(
         radius: 25,
         backgroundColor: AppColors.graPurple1,
-        child: Image.asset(image),
+        child: Icon(icon, color: color, size: 23),
       ),
     );
   }
 
   Widget _navigationItem(String image, VoidCallback onTap) {
-    return GestureDetector(onTap: onTap, child: Image.asset(image));
+    return GestureDetector(
+      onTap: onTap,
+      child: Image.asset(
+        image,
+        width: 25,
+        height: 25,
+        // ignore: deprecated_member_use
+        color: AppColors.white,
+      ),
+    );
   }
+
+  // Widget _navigationItem(IconData icon, VoidCallback onTap) {
+  //   return GestureDetector(
+  //     onTap: onTap,
+  //     child: Icon(icon, size: 25, color: AppColors.white),
+  //   );
+  // }
 }
 
 class OfferDialog extends StatelessWidget {

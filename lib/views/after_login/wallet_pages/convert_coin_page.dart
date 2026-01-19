@@ -1,7 +1,10 @@
 import 'package:chat_app/res/app_colors.dart';
+import 'package:chat_app/utils/custom_snakebar.dart';
 import 'package:chat_app/utils/textStyle.dart';
 import 'package:chat_app/utils/text_field.dart';
+import 'package:chat_app/view_model/after_login_controller/wallet_controller/wallet_controllers.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class ConvertCoinsPage extends StatefulWidget {
   const ConvertCoinsPage({super.key});
@@ -13,51 +16,49 @@ class ConvertCoinsPage extends StatefulWidget {
 class _ConvertCoinsPageState extends State<ConvertCoinsPage> {
   int selectedMethod = 0;
 
+  final ConvertCoinController ctr = Get.put(ConvertCoinController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topRight,
-            end: Alignment.bottomLeft,
-            colors: [
-              AppColors.graPurple1,
-              AppColors.gradientBlack,
-              AppColors.balckBlue,
-            ],
+      resizeToAvoidBottomInset: true,
+      body: SingleChildScrollView(
+        child: Container(
+          width: double.infinity,
+          height: MediaQuery.of(context).size.height,
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
+              colors: [
+                AppColors.graPurple1,
+                AppColors.gradientBlack,
+                AppColors.balckBlue,
+              ],
+            ),
           ),
-        ),
-        child: SafeArea(
-          child: Column(
-            children: [
-              const ConvertHeader(),
-              const SizedBox(height: 16),
-              Container(
-                width: double.infinity,
-                height: 2,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [AppColors.graPurple2, AppColors.graPurple1],
-                  ),
-                ),
-              ),
-              const SizedBox(height: 16),
-              const BalanceCard(),
-              const SizedBox(height: 16),
-              _paymentCard(),
-              const Spacer(),
-              _confirmButton(),
-            ],
+          child: SafeArea(
+            child: Column(
+              children: [
+                const ConvertHeader(),
+                const SizedBox(height: 16),
+                Divider(color: Colors.white24, thickness: 1),
+                const SizedBox(height: 16),
+                const BalanceCard(),
+                const SizedBox(height: 16),
+                _paymentCard(ctr),
+                const SizedBox(height: 30),
+                _confirmButton(),
+                const SizedBox(height: 20),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  Widget _paymentCard() {
+  Widget _paymentCard(ConvertCoinController ctr) {
     return Container(
       width: double.infinity,
       margin: EdgeInsets.symmetric(horizontal: 15),
@@ -75,26 +76,41 @@ class _ConvertCoinsPageState extends State<ConvertCoinsPage> {
             spacing: 10,
             children: List.generate(
               paymentMethods.length,
-              (index) => Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Container(
-                    width: 10,
-                    height: 10,
-                    decoration: BoxDecoration(
-                      border: Border.all(width: 1, color: AppColors.graPurple1),
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                  ),
-                  SizedBox(width: 5),
-                  Text(
-                    paymentMethods[index],
-                    style: textStyle15(
-                      FontWeight.w500,
-                      color: AppColors.white54,
-                    ),
-                  ),
-                ],
+              (index) => GestureDetector(
+                onTap: () {
+                  ctr.toggle(paymentMethods[index]);
+                },
+                child: Obx(() {
+                  final isSelected =
+                      ctr.selectedOption.value == paymentMethods[index];
+                  return Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                        width: 10,
+                        height: 10,
+                        decoration: BoxDecoration(
+                          color: isSelected
+                              ? AppColors.mainColors
+                              : Colors.transparent,
+                          border: Border.all(
+                            width: 1,
+                            color: AppColors.graPurple1,
+                          ),
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                      ),
+                      SizedBox(width: 5),
+                      Text(
+                        paymentMethods[index],
+                        style: textStyle15(
+                          FontWeight.w500,
+                          color: AppColors.white54,
+                        ),
+                      ),
+                    ],
+                  );
+                }),
               ),
             ),
           ),
@@ -108,7 +124,20 @@ class _ConvertCoinsPageState extends State<ConvertCoinsPage> {
       width: double.infinity,
       height: 48,
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: () {
+          if (ctr.selectedOption.value == null ||
+              ctr.selectedOption.value!.isEmpty) {
+            showErrorSnackbar(
+              title: "Oops!",
+              message: "You need to choose a payment method before proceeding.",
+            );
+          } else {
+            showSuccessSnackbar(
+              title: "Done!",
+              message: "Payment completed successfully 🎉",
+            );
+          }
+        },
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.transparent,
           shadowColor: Colors.transparent,

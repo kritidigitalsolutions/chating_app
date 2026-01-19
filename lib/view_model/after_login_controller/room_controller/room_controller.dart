@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -87,7 +85,7 @@ class ChatMessage {
 class RoomCreatingController extends GetxController {
   final ImagePicker picker = ImagePicker();
 
-  final Rx<File?> selectedImage = Rx<File?>(null);
+  var selectedImage = RxnString();
 
   Future<void> pickImage() async {
     final XFile? image = await picker.pickImage(
@@ -95,6 +93,42 @@ class RoomCreatingController extends GetxController {
       imageQuality: 80,
     );
 
-    // if(pick)
+    if (image != null) {
+      selectedImage.value = image.path;
+    }
+  }
+
+  final roomName = TextEditingController();
+  final roomDescription = TextEditingController();
+
+  // Selections
+  final selectedRoomType = ''.obs;
+  final roomPrivacy = ''.obs; // public / private
+  final entryType = ''.obs; // free / paid
+  final participantLimit = ''.obs;
+
+  // Validation
+  bool validateRoom() {
+    if (roomName.text.trim().isEmpty) {
+      Get.snackbar("Error", "Room name is required");
+      return false;
+    }
+    if (selectedRoomType.value.isEmpty) {
+      Get.snackbar("Error", "Please select room type");
+      return false;
+    }
+    if (roomPrivacy.value.isEmpty) {
+      Get.snackbar("Error", "Please select room privacy");
+      return false;
+    }
+    if (entryType.value.isEmpty) {
+      Get.snackbar("Error", "Please select entry type");
+      return false;
+    }
+    if (participantLimit.value.isEmpty) {
+      Get.snackbar("Error", "Please select participant limit");
+      return false;
+    }
+    return true;
   }
 }

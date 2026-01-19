@@ -220,7 +220,7 @@ class ChatPage extends StatelessWidget {
             CircleAvatar(
               radius: 14,
               backgroundColor: AppColors.graPurple1,
-              child: Image.asset(image),
+              child: Image.asset(image, width: 18, height: 18),
             ),
             SizedBox(width: 5),
             Text(

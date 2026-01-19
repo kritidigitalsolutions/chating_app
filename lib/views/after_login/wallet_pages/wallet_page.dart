@@ -73,12 +73,13 @@ class WalletPage extends StatelessWidget {
             ),
           ),
           CircleAvatar(
-            radius: 25,
+            radius: 30,
             backgroundColor: Colors.white12,
-            child: Icon(
-              Icons.account_balance_wallet,
-              color: Colors.white,
-              size: 25,
+
+            child: Image.asset(
+              "assets/icons/wallet.png",
+              width: 40,
+              height: 40,
             ),
           ),
         ],
@@ -93,18 +94,18 @@ class WalletPage extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          _iconItem(Icons.card_giftcard, "Gift Sent", () {}),
-          _iconItem(Icons.videocam, "Video Call", () {}),
-          _iconItem(Icons.history, "Coins History", () {
+          _iconItem("assets/icons/gift-box.png", "Gift Sent", () {}),
+          _iconItem("assets/icons/video-camera.png", "Video Call", () {}),
+          _iconItem("assets/icons/dollar.png", "Coins History", () {
             Get.toNamed(AppRoutes.coinHistory);
           }),
-          _iconItem(Icons.wifi_tethering, "Live Streaming", () {}),
+          _iconItem("assets/icons/live.png", "Live Streaming", () {}),
         ],
       ),
     );
   }
 
-  Widget _iconItem(IconData icon, String label, VoidCallback onTap) {
+  Widget _iconItem(String image, String label, VoidCallback onTap) {
     return GestureDetector(
       onTap: onTap,
       child: Column(
@@ -112,7 +113,7 @@ class WalletPage extends StatelessWidget {
           CircleAvatar(
             radius: 22,
             backgroundColor: Colors.white12,
-            child: Icon(icon, color: Colors.white),
+            child: Image.asset(image, width: 35, height: 35),
           ),
           const SizedBox(height: 6),
           Text(

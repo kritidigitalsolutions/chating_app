@@ -1,13 +1,18 @@
+import 'dart:io';
+
 import 'package:chat_app/res/app_colors.dart';
 import 'package:chat_app/routes/app_routes.dart';
 import 'package:chat_app/utils/button.dart';
 import 'package:chat_app/utils/textStyle.dart';
 import 'package:chat_app/utils/text_field.dart';
+import 'package:chat_app/view_model/after_login_controller/room_controller/room_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class RoomCreatingPage extends StatelessWidget {
-  const RoomCreatingPage({super.key});
+  RoomCreatingPage({super.key});
+
+  final RoomCreatingController ctr = Get.put(RoomCreatingController());
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +37,7 @@ class RoomCreatingPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _topHeader(),
+                _topHeader(ctr),
 
                 SizedBox(height: 20),
 
@@ -42,7 +47,7 @@ class RoomCreatingPage extends StatelessWidget {
                   style: textStyle15(FontWeight.w600, color: AppColors.white54),
                 ),
                 SizedBox(height: 8),
-                TextFieldWithBorder(),
+                TextFieldWithBorder(controller: ctr.roomName),
                 SizedBox(height: 20),
 
                 // Room Description
@@ -51,7 +56,10 @@ class RoomCreatingPage extends StatelessWidget {
                   style: textStyle15(FontWeight.w600, color: AppColors.white54),
                 ),
                 SizedBox(height: 8),
-                TextFieldWithBorder(maxLines: 3),
+                TextFieldWithBorder(
+                  maxLines: 3,
+                  controller: ctr.roomDescription,
+                ),
                 SizedBox(height: 20),
 
                 // Room type
@@ -100,7 +108,7 @@ class RoomCreatingPage extends StatelessWidget {
     );
   }
 
-  Widget _topHeader() {
+  Widget _topHeader(RoomCreatingController ctr) {
     return SizedBox(
       width: double.infinity,
       child: Column(
@@ -108,17 +116,32 @@ class RoomCreatingPage extends StatelessWidget {
           Stack(
             //  alignment: Alignment.centerRight,
             children: [
-              CircleAvatar(
-                radius: 35,
-                backgroundImage: AssetImage("assets/images/user.jpg"),
+              Obx(
+                () => GestureDetector(
+                  onTap: () {
+                    ctr.pickImage();
+                  },
+                  child: CircleAvatar(
+                    radius: 35,
+                    backgroundImage: ctr.selectedImage.value == null
+                        ? AssetImage("assets/images/user.jpg")
+                        : FileImage(File(ctr.selectedImage.value!))
+                              as ImageProvider,
+                  ),
+                ),
               ),
               Positioned(
                 right: 0,
                 bottom: 0,
-                child: CircleAvatar(
-                  backgroundColor: AppColors.white54,
-                  radius: 10,
-                  child: Icon(Icons.edit, size: 10, color: AppColors.green),
+                child: GestureDetector(
+                  onTap: () {
+                    ctr.pickImage();
+                  },
+                  child: CircleAvatar(
+                    backgroundColor: AppColors.white54,
+                    radius: 10,
+                    child: Icon(Icons.edit, size: 10, color: AppColors.green),
+                  ),
                 ),
               ),
             ],
@@ -169,20 +192,32 @@ class RoomCreatingPage extends StatelessWidget {
         spacing: 10,
         runSpacing: 10,
         children: roomType.map((type) {
-          return Container(
-            constraints: const BoxConstraints(minHeight: 28),
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-            decoration: BoxDecoration(
-              border: Border.all(width: 1, color: AppColors.graPurple2),
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Text(
-              type,
-              maxLines: 1, // ⭐ IMPORTANT
-              overflow: TextOverflow.ellipsis,
-              style: textStyle14(FontWeight.w500, color: AppColors.white54),
-            ),
-          );
+          return Obx(() {
+            final isSelected = ctr.selectedRoomType.value == type;
+            return GestureDetector(
+              onTap: () {
+                ctr.selectedRoomType.value = type;
+              },
+              child: Container(
+                constraints: const BoxConstraints(minHeight: 28),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 6,
+                ),
+                decoration: BoxDecoration(
+                  color: isSelected ? AppColors.mainColors : Colors.transparent,
+                  border: Border.all(width: 1, color: AppColors.graPurple2),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Text(
+                  type,
+                  maxLines: 1, // ⭐ IMPORTANT
+                  overflow: TextOverflow.ellipsis,
+                  style: textStyle14(FontWeight.w500, color: AppColors.white54),
+                ),
+              ),
+            );
+          });
         }).toList(),
       ),
     );
@@ -213,30 +248,58 @@ class RoomCreatingPage extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: roomPrivacy.map((type) {
-              return Container(
-                margin: EdgeInsets.only(bottom: 10),
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 8,
-                ),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(width: 1, color: AppColors.graPurple2),
-                ),
-                child: Row(
-                  children: [
-                    Icon(Icons.circle_outlined, color: AppColors.white54),
-                    SizedBox(width: 5),
-                    Text(
-                      type,
-                      style: textStyle14(
-                        FontWeight.w500,
-                        color: AppColors.white54,
-                      ),
+              return Obx(() {
+                final isSelected = ctr.roomPrivacy.value == type;
+                return GestureDetector(
+                  onTap: () {
+                    ctr.roomPrivacy.value = type;
+                  },
+                  child: Container(
+                    margin: EdgeInsets.only(bottom: 10),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 8,
                     ),
-                  ],
-                ),
-              );
+                    decoration: BoxDecoration(
+                      color: isSelected
+                          ? AppColors.graPurple1.withAlpha(600)
+                          : Colors.transparent,
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(width: 1, color: AppColors.graPurple2),
+                    ),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 20,
+                          height: 20,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: isSelected
+                                ? AppColors.mainColors
+                                : Colors.transparent,
+                            border: Border.all(
+                              width: 1,
+                              color: isSelected
+                                  ? AppColors.mainColors
+                                  : AppColors.white54,
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 5),
+                        Text(
+                          type,
+                          style: textStyle14(
+                            FontWeight.w500,
+                            color: isSelected
+                                ? AppColors.mainColors
+                                : AppColors.white54,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              });
             }).toList(),
           ),
         ],
@@ -267,30 +330,58 @@ class RoomCreatingPage extends StatelessWidget {
 
           Row(
             children: roomPrivacy.map((type) {
-              return Container(
-                margin: EdgeInsets.only(right: 10),
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 8,
-                ),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(width: 1, color: AppColors.graPurple2),
-                ),
-                child: Row(
-                  children: [
-                    Icon(Icons.circle_outlined, color: AppColors.white54),
-                    SizedBox(width: 5),
-                    Text(
-                      type,
-                      style: textStyle14(
-                        FontWeight.w500,
-                        color: AppColors.white54,
-                      ),
+              return Obx(() {
+                final isSelected = ctr.entryType.value == type;
+                return GestureDetector(
+                  onTap: () {
+                    ctr.entryType.value = type;
+                  },
+                  child: Container(
+                    margin: EdgeInsets.only(right: 10),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 8,
                     ),
-                  ],
-                ),
-              );
+                    decoration: BoxDecoration(
+                      color: isSelected
+                          ? AppColors.graPurple1.withAlpha(600)
+                          : Colors.transparent,
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(width: 1, color: AppColors.graPurple2),
+                    ),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 20,
+                          height: 20,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: isSelected
+                                ? AppColors.mainColors
+                                : Colors.transparent,
+                            border: Border.all(
+                              width: 1,
+                              color: isSelected
+                                  ? AppColors.mainColors
+                                  : AppColors.white54,
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 5),
+                        Text(
+                          type,
+                          style: textStyle14(
+                            FontWeight.w500,
+                            color: isSelected
+                                ? AppColors.mainColors
+                                : AppColors.white54,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              });
             }).toList(),
           ),
         ],
@@ -323,23 +414,39 @@ class RoomCreatingPage extends StatelessWidget {
             runSpacing: 10,
             spacing: 10,
             children: roomPrivacy.map((type) {
-              return Container(
-                margin: EdgeInsets.only(right: 10),
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 8,
-                ),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(width: 1, color: AppColors.graPurple2),
-                ),
-                child: Text(
-                  type,
-                  maxLines: 1, // ⭐ IMPORTANT
-                  overflow: TextOverflow.ellipsis,
-                  style: textStyle14(FontWeight.w500, color: AppColors.white54),
-                ),
-              );
+              return Obx(() {
+                final isSelected = ctr.participantLimit.value == type;
+                return GestureDetector(
+                  onTap: () {
+                    ctr.participantLimit.value = type;
+                  },
+                  child: Container(
+                    margin: EdgeInsets.only(right: 10),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 8,
+                    ),
+                    decoration: BoxDecoration(
+                      color: isSelected
+                          ? AppColors.graPurple1.withAlpha(600)
+                          : Colors.transparent,
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(width: 1, color: AppColors.graPurple2),
+                    ),
+                    child: Text(
+                      type,
+                      maxLines: 1, // ⭐ IMPORTANT
+                      overflow: TextOverflow.ellipsis,
+                      style: textStyle14(
+                        FontWeight.w500,
+                        color: isSelected
+                            ? AppColors.mainColors
+                            : AppColors.white54,
+                      ),
+                    ),
+                  ),
+                );
+              });
             }).toList(),
           ),
         ],
