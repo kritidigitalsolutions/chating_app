@@ -85,11 +85,13 @@ class CoinsHeader extends StatelessWidget {
             padding: const EdgeInsets.all(10),
             decoration: const BoxDecoration(
               shape: BoxShape.circle,
-              gradient: LinearGradient(
-                colors: [Color(0xFFFFC107), Color(0xFFFF9800)],
-              ),
+              color: AppColors.graPurple1,
             ),
-            child: const Icon(Icons.monetization_on, color: Colors.white),
+            child: Image.asset(
+              "assets/icons/dollar.png",
+              width: 35,
+              height: 35,
+            ),
           ),
         ],
       ),
@@ -123,8 +125,8 @@ class AvailableCoinsCard extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Row(
-            children: const [
-              Icon(Icons.circle, size: 10, color: Colors.amber),
+            children: [
+              Image.asset("assets/icons/dollar.png", width: 18, height: 18),
               SizedBox(width: 6),
               Text("2 Coins", style: TextStyle(color: Colors.white)),
             ],
@@ -346,9 +348,7 @@ class HistoryTile extends StatelessWidget {
 BoxDecoration _cardDecoration() {
   return BoxDecoration(
     borderRadius: BorderRadius.circular(8),
-    gradient: LinearGradient(
-      colors: [Colors.white.withOpacity(0.08), Colors.white.withOpacity(0.02)],
-    ),
-    border: Border.all(color: Colors.purpleAccent.withOpacity(0.4)),
+    color: AppColors.graPurple1.withAlpha(20),
+    border: Border.all(color: AppColors.graPurple1),
   );
 }

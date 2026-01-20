@@ -1,3 +1,4 @@
+import 'package:chat_app/model/request_model/room_create_request_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -98,8 +99,8 @@ class RoomCreatingController extends GetxController {
     }
   }
 
-  final roomName = TextEditingController();
-  final roomDescription = TextEditingController();
+  final TextEditingController roomName = TextEditingController();
+  final TextEditingController roomDescription = TextEditingController();
 
   // Selections
   final selectedRoomType = ''.obs;
@@ -130,5 +131,11 @@ class RoomCreatingController extends GetxController {
       return false;
     }
     return true;
+  }
+
+  RxList<RoomCreateRequestModel> roomList = <RoomCreateRequestModel>[].obs;
+
+  void save(RoomCreateRequestModel model) {
+    roomList.add(model);
   }
 }

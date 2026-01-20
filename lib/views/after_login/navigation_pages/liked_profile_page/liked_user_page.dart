@@ -105,7 +105,11 @@ class LikedUserPage extends StatelessWidget {
                             CircleAvatar(
                               radius: 15,
                               backgroundColor: AppColors.graPurple1,
-                              child: Image.asset("assets/icons/gift.png"),
+                              child: Image.asset(
+                                "assets/icons/gift.png",
+                                width: 18,
+                                height: 18,
+                              ),
                             ),
                             SizedBox(width: 5),
                             Text(
@@ -221,7 +225,12 @@ class LikedUserPage extends StatelessWidget {
                     ),
                     child: Row(
                       children: [
-                        Image.asset('assets/icons/bubble-chat.png'),
+                        Image.asset(
+                          'assets/icons/bubble-chat.png',
+                          width: 20,
+                          height: 20,
+                          color: AppColors.white,
+                        ),
                         SizedBox(width: 5),
                         Text(
                           "Chat",

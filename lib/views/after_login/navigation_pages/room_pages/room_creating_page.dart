@@ -1,8 +1,10 @@
 import 'dart:io';
 
+import 'package:chat_app/model/request_model/room_create_request_model.dart';
 import 'package:chat_app/res/app_colors.dart';
 import 'package:chat_app/routes/app_routes.dart';
 import 'package:chat_app/utils/button.dart';
+import 'package:chat_app/utils/custom_snakebar.dart';
 import 'package:chat_app/utils/textStyle.dart';
 import 'package:chat_app/utils/text_field.dart';
 import 'package:chat_app/view_model/after_login_controller/room_controller/room_controller.dart';
@@ -100,6 +102,39 @@ class RoomCreatingPage extends StatelessWidget {
 
                 // Room guideliness
                 _roomGuide(),
+
+                SizedBox(height: 30),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CustomElevetedButton(
+                      text: "Continue",
+                      onPressed: () {
+                        if (ctr.roomName.text.trim().isEmpty ||
+                            ctr.roomDescription.text.trim().isEmpty) {
+                          showErrorSnackbar(
+                            title: "Error",
+                            message: "Please enter value",
+                          );
+                          return;
+                        }
+                        final model = RoomCreateRequestModel(
+                          roomName: ctr.roomName.text.trim(),
+                          roomDes: ctr.roomDescription.text.trim(),
+                          entryPoint: ctr.entryType.value,
+                          limit: ctr.participantLimit.value,
+                          roomPrivacy: ctr.roomPrivacy.value,
+                          roomType: ctr.selectedRoomType.value,
+                        );
+
+                        print(model.toJson());
+                        ctr.save(model);
+                        Get.toNamed(AppRoutes.confirmPage);
+                      },
+                      backgroundColor: AppColors.graPurple1.withAlpha(150),
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
@@ -489,19 +524,6 @@ class RoomCreatingPage extends StatelessWidget {
               ],
             );
           }).toList(),
-        ),
-        SizedBox(height: 30),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CustomElevetedButton(
-              text: "Continue",
-              onPressed: () {
-                Get.toNamed(AppRoutes.confirmPage);
-              },
-              backgroundColor: AppColors.graPurple1.withAlpha(150),
-            ),
-          ],
         ),
       ],
     );

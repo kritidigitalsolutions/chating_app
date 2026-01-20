@@ -112,6 +112,7 @@ class TextFieldWithBorder extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextField(
       maxLines: maxLines,
+      controller: controller,
       style: const TextStyle(color: Colors.white),
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.symmetric(

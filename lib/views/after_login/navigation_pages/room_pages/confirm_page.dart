@@ -133,10 +133,18 @@ class ConfirmPage extends StatelessWidget {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              _actionIcon(Icons.videocam),
-                              _actionIcon(Icons.call),
-                              _actionIcon(Icons.chat),
-                              _actionIcon(Icons.add),
+                              _actionIcon(Icons.videocam, () {
+                                Get.toNamed(AppRoutes.videoCallPage);
+                              }),
+                              _actionIcon(Icons.call, () {
+                                Get.toNamed(AppRoutes.videoCallPage);
+                              }),
+                              _actionIcon(Icons.chat, () {
+                                Get.toNamed(AppRoutes.chatPage);
+                              }),
+                              _actionIcon(Icons.add, () {
+                                Get.toNamed(AppRoutes.roomSpace);
+                              }),
                             ],
                           ),
 
@@ -234,11 +242,9 @@ class ConfirmPage extends StatelessWidget {
   }
 
   /// ACTION ICON
-  static Widget _actionIcon(IconData icon) {
+  static Widget _actionIcon(IconData icon, VoidCallback onTap) {
     return GestureDetector(
-      onTap: () {
-        Get.toNamed(AppRoutes.videoCallPage);
-      },
+      onTap: onTap,
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 6),
         padding: const EdgeInsets.all(8),

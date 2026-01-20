@@ -55,11 +55,19 @@ class UserImagePage extends StatelessWidget {
                 /// REAL PHOTO MODE
                 _profileOption(
                   borderColor: AppColors.mainColors,
-                  avatar: CircleAvatar(
-                    radius: 52,
-                    backgroundImage: AssetImage("assets/images/user.jpg"),
+                  avatar: Container(
+                    padding: EdgeInsets.all(4),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(width: 2, color: AppColors.mainColors),
+                    ),
+                    child: CircleAvatar(
+                      radius: 52,
+                      backgroundImage: AssetImage("assets/images/user.jpg"),
+                    ),
                   ),
                   text: "Real Photo Mode",
+                  background: AppColors.mainColors.withAlpha(100),
                   onTap: () {
                     Get.toNamed(AppRoutes.userDetails, arguments: "PHOTO");
                   },
@@ -70,9 +78,20 @@ class UserImagePage extends StatelessWidget {
                 /// AVATAR MODE
                 _profileOption(
                   borderColor: AppColors.mainColors,
-                  avatar: CircleAvatar(
-                    radius: 52,
-                    backgroundImage: AssetImage("assets/avatar/one.png"),
+                  background: AppColors.gradientBlue.withAlpha(100),
+                  avatar: Container(
+                    padding: EdgeInsets.all(4),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        width: 2,
+                        color: AppColors.gradientBlue,
+                      ),
+                    ),
+                    child: CircleAvatar(
+                      radius: 52,
+                      backgroundImage: AssetImage("assets/avatar/one.png"),
+                    ),
                   ),
                   text: "Real Photo Mode",
                   onTap: () {
@@ -106,6 +125,7 @@ class UserImagePage extends StatelessWidget {
     required Widget avatar,
     required String text,
     required Color borderColor,
+    required Color background,
     required VoidCallback onTap,
   }) {
     return Column(
@@ -129,7 +149,7 @@ class UserImagePage extends StatelessWidget {
             height: 42,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              color: Colors.white12,
+              color: background,
             ),
             child: Center(
               child: Text(

@@ -1,4 +1,5 @@
 import 'package:chat_app/routes/app_routes.dart';
+import 'package:chat_app/utils/button.dart';
 import 'package:flutter/material.dart';
 import 'package:chat_app/res/app_colors.dart';
 import 'package:get/get.dart';
@@ -112,8 +113,8 @@ class WalletPage extends StatelessWidget {
         children: [
           CircleAvatar(
             radius: 22,
-            backgroundColor: Colors.white12,
-            child: Image.asset(image, width: 35, height: 35),
+            backgroundColor: AppColors.graPurple1,
+            child: Image.asset(image, width: 25, height: 25),
           ),
           const SizedBox(height: 6),
           Text(
@@ -139,8 +140,9 @@ class WalletPage extends StatelessWidget {
           ),
           const SizedBox(height: 6),
           Row(
-            children: const [
-              Icon(Icons.monetization_on, color: Colors.amber),
+            children: [
+              Image.asset("assets/icons/dollar.png", width: 20, height: 20),
+
               SizedBox(width: 6),
               Text(
                 "2 Coins",
@@ -198,7 +200,7 @@ class WalletPage extends StatelessWidget {
       ),
       child: Row(
         children: [
-          const Icon(Icons.monetization_on, size: 14, color: Colors.amber),
+          Image.asset("assets/icons/dollar.png", width: 18, height: 18),
           const SizedBox(width: 4),
           Text(text, style: const TextStyle(color: Colors.white, fontSize: 11)),
         ],
@@ -212,34 +214,62 @@ class WalletPage extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _cardHeader("Live Stream Earning"),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Image.asset(
+                "assets/icons/video-camera.png",
+                width: 25,
+                height: 25,
+              ),
+              SizedBox(width: 10),
+              Text(
+                "Live Stream Earning",
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+
+          const SizedBox(height: 8),
+          const Text(
+            "Available Balance",
+            style: TextStyle(color: Colors.white54, fontSize: 12),
+          ),
           const SizedBox(height: 8),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
-                "Available Balance",
-                style: TextStyle(color: Colors.white54, fontSize: 12),
-              ),
-              Row(
-                children: const [
-                  Icon(Icons.monetization_on, color: Colors.amber, size: 16),
-                  SizedBox(width: 4),
-                  Text(
-                    "16 Coins",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                decoration: BoxDecoration(
+                  color: Colors.transparent,
+                  border: Border.all(width: 1, color: AppColors.white54),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Row(
+                  children: [
+                    Image.asset(
+                      "assets/icons/dollar.png",
+                      width: 20,
+                      height: 20,
                     ),
-                  ),
-                ],
+                    SizedBox(width: 4),
+                    Text(
+                      "16 Coins",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
               ),
+              _gradientButton("Convert Coins"),
             ],
-          ),
-          const SizedBox(height: 10),
-          Align(
-            alignment: Alignment.centerRight,
-            child: _gradientButton("Convert Coins"),
           ),
         ],
       ),
@@ -252,18 +282,31 @@ class WalletPage extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _cardHeader("Transaction History"),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Image.asset("assets/icons/history.png", width: 25, height: 25),
+              SizedBox(width: 10),
+              Text(
+                "Transaction History",
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+
           const SizedBox(height: 10),
           _transactionItem("Sent Gift to Ankita", "-5 Coins"),
           _transactionItem("Video Call with Ritu", "-10 Coins"),
           _transactionItem("Coin Purchase", "+50 Coins"),
           _transactionItem("Live Stream Earning", "+15 Coins"),
-          const SizedBox(height: 6),
           Center(
-            child: Text(
-              "Explore More",
-              style: TextStyle(color: AppColors.mainColors, fontSize: 12),
-            ),
+            child: textButton("Explore More", AppColors.mainColors, () {
+              Get.toNamed(AppRoutes.transactionHistroyPage);
+            }),
           ),
         ],
       ),
@@ -271,21 +314,39 @@ class WalletPage extends StatelessWidget {
   }
 
   Widget _transactionItem(String title, String value) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
+    return Container(
+      margin: EdgeInsets.only(bottom: 10),
+      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      decoration: BoxDecoration(
+        color: AppColors.graPurple1.withAlpha(50),
+        border: Border.all(width: 1, color: AppColors.graPurple1),
+        borderRadius: BorderRadius.circular(8),
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //  crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             title,
-            style: const TextStyle(color: Colors.white70, fontSize: 12),
+            style: const TextStyle(color: AppColors.white54, fontSize: 12),
           ),
-          Text(
-            value,
-            style: const TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-            ),
+          Column(
+            children: [
+              Text(
+                value,
+                style: const TextStyle(
+                  color: AppColors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(
+                "Wed 12",
+                style: const TextStyle(
+                  color: AppColors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
           ),
         ],
       ),
@@ -299,8 +360,8 @@ class WalletPage extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 12.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
-        color: Colors.white.withOpacity(0.08),
-        border: Border.all(color: Colors.white24),
+        color: AppColors.graPurple1.withAlpha(20),
+        border: Border.all(color: AppColors.graPurple1),
       ),
       child: child,
     );
@@ -318,7 +379,7 @@ class WalletPage extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-        const Icon(Icons.more_vert, color: Colors.white54, size: 18),
+        const Icon(Icons.more_horiz, color: Colors.white54, size: 18),
       ],
     );
   }

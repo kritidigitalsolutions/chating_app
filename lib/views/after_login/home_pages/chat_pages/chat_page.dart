@@ -194,7 +194,7 @@ class ChatPage extends StatelessWidget {
             _chip("2 Coins Left", "assets/icons/dollar.png", () {
               Get.toNamed(AppRoutes.walletPage);
             }),
-            _chip("Go Live", "assets/icons/video.png", () {
+            _chip("Go Live", "assets/icons/video-camera.png", () {
               Get.toNamed(AppRoutes.streamjoin);
             }),
           ],

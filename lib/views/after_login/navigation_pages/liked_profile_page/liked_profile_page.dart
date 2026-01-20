@@ -7,6 +7,11 @@ import 'package:get/get.dart';
 
 class LikedProfilePage extends StatelessWidget {
   const LikedProfilePage({super.key});
+  Future<void> _onRefresh() async {
+    // 🔄 API call / reload logic here
+    await Future.delayed(const Duration(seconds: 2));
+    print("Liked profiles refreshed");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,12 +60,18 @@ class LikedProfilePage extends StatelessWidget {
 
             // LIST
             Expanded(
-              child: ListView.builder(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                itemCount: 7,
-                itemBuilder: (context, index) {
-                  return const LikeCard();
-                },
+              child: RefreshIndicator(
+                color: AppColors.mainColors,
+                backgroundColor: AppColors.graPurple1.withAlpha(100),
+                onRefresh: _onRefresh,
+                child: ListView.builder(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  itemCount: 7,
+                  itemBuilder: (context, index) {
+                    return const LikeCard();
+                  },
+                ),
               ),
             ),
           ],

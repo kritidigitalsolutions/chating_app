@@ -120,16 +120,28 @@ class UserDetailsPage extends StatelessWidget {
               const SizedBox(height: 10),
               CustomTextField(controller: ctr.userNameCtr, hint: "Username"),
               const SizedBox(height: 10),
-              CustomTextField(
-                controller: ctr.ageCtr,
-                hint: "Age",
-                keyboardType: TextInputType.number,
-                inputFormatters: [
-                  FilteringTextInputFormatter.digitsOnly,
-                  LengthLimitingTextInputFormatter(2), // optional
-                ],
-                suffix: _redChip("hide"),
+              Obx(
+                () => CustomTextField(
+                  controller: ctr.ageCtr,
+                  hint: "Age",
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly,
+                    LengthLimitingTextInputFormatter(2),
+                  ],
+                  // Show the chip based on showAge state
+                  suffix: GestureDetector(
+                    onTap: () {
+                      ctr.showAge.value =
+                          !ctr.showAge.value; // toggle hide/show
+                    },
+                    child: _redChip(ctr.showAge.value ? "hide" : "show"),
+                  ),
+                  // Optionally mask the age if hidden
+                  //  obscureText: !ctr.showAge.value,
+                ),
               ),
+
               const SizedBox(height: 10),
               CustomTextField(controller: ctr.genderCtr, hint: "Gender"),
 
@@ -237,10 +249,11 @@ class UserDetailsPage extends StatelessWidget {
   }
 
   Widget _redChip(String text) {
+    final isSelected = ctr.showAge.value;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       decoration: BoxDecoration(
-        color: Colors.red,
+        color: isSelected ? AppColors.red : AppColors.green,
         borderRadius: BorderRadius.circular(20),
       ),
       child: Text(

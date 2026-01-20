@@ -8,7 +8,7 @@ import 'package:get/get.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
-
+  // final GoogleLoginController ctr = Get.put(GoogleLoginController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,13 +36,14 @@ class LoginPage extends StatelessWidget {
                   "assets/images/google.png",
                   AppColors.mainColors.withAlpha(100),
                   () {
-                    Get.toNamed(AppRoutes.homePage);
+                    //await ctr.signInAndShowEmail();
+                    Get.toNamed(AppRoutes.phoneNumber);
                   },
                 ),
                 SizedBox(height: 15),
                 loginType(
                   "Login with Phone Number",
-                  "assets/images/phone.png",
+                  "assets/images/phone-call.png",
                   AppColors.mainColors.withAlpha(100),
                   () {
                     Get.toNamed(AppRoutes.phoneNumber);
@@ -97,7 +98,7 @@ class LoginPage extends StatelessWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Image.asset(image),
+            Image.asset(image, width: 18, height: 18),
             SizedBox(width: 10),
             Text(
               title,

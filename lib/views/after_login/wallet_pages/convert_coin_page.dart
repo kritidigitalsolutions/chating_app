@@ -192,11 +192,13 @@ class ConvertHeader extends StatelessWidget {
             padding: const EdgeInsets.all(10),
             decoration: const BoxDecoration(
               shape: BoxShape.circle,
-              gradient: LinearGradient(
-                colors: [Color(0xFFFFC107), Color(0xFFFF9800)],
-              ),
+              color: AppColors.graPurple1,
             ),
-            child: const Icon(Icons.monetization_on, color: Colors.white),
+            child: Image.asset(
+              "assets/icons/dollar.png",
+              width: 35,
+              height: 35,
+            ),
           ),
         ],
       ),

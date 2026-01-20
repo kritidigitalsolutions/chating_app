@@ -16,7 +16,7 @@ class AppRoutes {
   static const String chatList = "/chatList";
   static const String likedProfile = "/likedProfile";
 
-  static const String profilePage = "/profilePage";
+  static const String profileEdit = "/profileEdit";
   static const String roomSpace = "/roomSpace";
 
   static const String roomCreate = "/roomCreate";
@@ -39,4 +39,9 @@ class AppRoutes {
   static const String buyCoin = "/buyCoin";
 
   static const String friendRoom = "/friendRoom";
+
+  static const String transactionHistroyPage = "/transactionHistroyPage";
+  static const String helpPage = "/helpPage";
+
+  static const String profilePage = "/profilePage";
 }

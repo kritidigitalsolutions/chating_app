@@ -18,6 +18,8 @@ class ProfileDetailsController extends GetxController {
   final Rx<File?> selectedImage = Rx<File?>(null);
   final RxString selectedAvatar = ''.obs;
 
+  RxBool showAge = true.obs;
+
   final List<String> avatars = [
     "assets/avatar/boy.png",
     "assets/avatar/girl.png",

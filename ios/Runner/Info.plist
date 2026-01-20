@@ -53,7 +53,10 @@
 </dict>
 
 	<key>NSCameraUsageDescription</key>
-<string>This app needs camera access to upload your profile photo</string>
+<string>This app needs camera access for video calling and profile photos</string>
+
+<key>NSMicrophoneUsageDescription</key>
+<string>This app needs microphone access for audio and video calls</string>
 
 <key>NSPhotoLibraryUsageDescription</key>
 <string>This app needs photo library access to select profile images</string>

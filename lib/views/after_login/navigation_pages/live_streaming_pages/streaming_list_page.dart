@@ -86,7 +86,12 @@ class StreamingListPage extends StatelessWidget {
               shape: BoxShape.circle,
               border: Border.all(color: AppColors.graPurple1),
             ),
-            child: const Icon(Icons.wifi_tethering, color: AppColors.red),
+            child: Image.asset(
+              "assets/icons/live.png",
+              width: 45,
+              height: 45,
+              fit: BoxFit.cover,
+            ),
           ),
         ],
       ),

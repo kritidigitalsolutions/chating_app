@@ -3,6 +3,7 @@ import 'package:chat_app/routes/app_routes.dart';
 import 'package:chat_app/utils/button.dart';
 import 'package:chat_app/utils/textStyle.dart';
 import 'package:chat_app/view_model/before_login_controller/auth_controller/auth_controller.dart';
+import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -60,27 +61,41 @@ class PhoneNumberPage extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: Row(
                   children: [
-                    Container(
-                      width: 60,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        color: Colors.transparent,
-                        border: Border.all(
-                          width: 1,
-                          color: AppColors.graPurple1,
+                    GestureDetector(
+                      onTap: () {
+                        showCountryPicker(
+                          context: context,
+                          showPhoneCode: true,
+                          onSelect: (Country country) {
+                            ctr.countryCode.value =
+                                "${country.flagEmoji} +${country.phoneCode}";
+                          },
+                        );
+                      },
+                      child: Container(
+                        width: 80,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            width: 1,
+                            color: AppColors.graPurple1,
+                          ),
+                          borderRadius: BorderRadius.circular(10),
                         ),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Center(
-                        child: Text(
-                          "+91",
-                          style: textStyle15(
-                            FontWeight.w600,
-                            color: AppColors.white,
+                        child: Obx(
+                          () => Center(
+                            child: Text(
+                              ctr.countryCode.value,
+                              style: textStyle14(
+                                FontWeight.w500,
+                                color: AppColors.white,
+                              ),
+                            ),
                           ),
                         ),
                       ),
                     ),
+
                     SizedBox(width: 15),
 
                     Expanded(

@@ -3,9 +3,8 @@ import 'package:chat_app/routes/app_routes.dart';
 import 'package:chat_app/utils/button.dart';
 import 'package:chat_app/utils/textStyle.dart';
 import 'package:chat_app/view_model/after_login_controller/home_controller/home_controller.dart';
+import 'package:chat_app/views/after_login/home_pages/home/filter_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -57,7 +56,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [iconButton(Icons.help, AppColors.white54, () {})],
+                  children: [
+                    iconButton(Icons.help, AppColors.white54, () {
+                      Get.toNamed(AppRoutes.helpPage);
+                    }),
+                  ],
                 ),
                 Row(
                   children: [
@@ -69,7 +72,9 @@ class _HomeScreenState extends State<HomeScreen> {
                             _itemIBox(
                               "Filter",
                               Icon(Icons.filter_alt, color: AppColors.white54),
-                              () {},
+                              () {
+                                _openFilterSheet(context);
+                              },
                             ),
                             SizedBox(width: 10),
                             _itemIBox(
@@ -535,4 +540,16 @@ class OfferDialog extends StatelessWidget {
       ),
     );
   }
+}
+
+void _openFilterSheet(BuildContext context) {
+  showModalBottomSheet(
+    context: context,
+    isScrollControlled: true,
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+    ),
+    backgroundColor: Colors.transparent,
+    builder: (_) => const FilterBottomSheet(),
+  );
 }

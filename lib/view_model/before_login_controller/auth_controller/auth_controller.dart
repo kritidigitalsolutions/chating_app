@@ -8,6 +8,7 @@ class PhoneNumberController extends GetxController {
   final FocusNode focusNode = FocusNode();
 
   final RxString errorText = ''.obs;
+  RxString countryCode = "Code".obs;
 
   @override
   void onInit() {

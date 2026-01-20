@@ -62,14 +62,29 @@ class _BuyCoinsPageState extends State<BuyCoinsPage> {
                   ),
                 ),
                 const SizedBox(height: 16),
-                const Text(
-                  "Choose a pack",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
+                RichText(
+                  text: TextSpan(
+                    style: textStyle24(FontWeight.bold, color: AppColors.white),
+                    children: [
+                      TextSpan(text: "Choose a "),
+                      TextSpan(
+                        text: "pack",
+                        style: textStyle24(
+                          FontWeight.bold,
+                          color: AppColors.mainColors,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
+                // const Text(
+                //   "Choose a pack",
+                //   style: TextStyle(
+                //     color: Colors.white,
+                //     fontSize: 16,
+                //     fontWeight: FontWeight.w600,
+                //   ),
+                // ),
                 const SizedBox(height: 16),
                 ...List.generate(packs.length, (index) => _coinPackTile(index)),
                 const SizedBox(height: 20),
@@ -258,11 +273,13 @@ class BuyCoinsHeader extends StatelessWidget {
             padding: const EdgeInsets.all(10),
             decoration: const BoxDecoration(
               shape: BoxShape.circle,
-              gradient: LinearGradient(
-                colors: [Color(0xFFFFC107), Color(0xFFFF9800)],
-              ),
+              color: AppColors.graPurple1,
             ),
-            child: const Icon(Icons.monetization_on, color: Colors.white),
+            child: Image.asset(
+              "assets/icons/dollar.png",
+              width: 35,
+              height: 35,
+            ),
           ),
         ],
       ),

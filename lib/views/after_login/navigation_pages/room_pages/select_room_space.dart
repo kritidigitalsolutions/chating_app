@@ -1,11 +1,16 @@
 import 'package:chat_app/res/app_colors.dart';
 import 'package:chat_app/routes/app_routes.dart';
 import 'package:chat_app/utils/textStyle.dart';
+import 'package:chat_app/view_model/after_login_controller/room_controller/room_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class SelectRoomSpace extends StatelessWidget {
-  const SelectRoomSpace({super.key});
+  SelectRoomSpace({super.key});
+
+  final RoomCreatingController ctr = Get.isRegistered<RoomCreatingController>()
+      ? Get.find<RoomCreatingController>()
+      : Get.put(RoomCreatingController());
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +43,7 @@ class SelectRoomSpace extends StatelessWidget {
                 _itemBox(
                   "Personal Rooms",
                   "space made just for you are your people",
-                  '',
+                  "assets/room/user.png",
                   () {
                     Get.toNamed(AppRoutes.roomListPage);
                   },
@@ -47,12 +52,31 @@ class SelectRoomSpace extends StatelessWidget {
                 _itemBox(
                   "Friends Room",
                   "space made just for you are your people",
-                  '',
+                  "assets/room/support.png",
                   () {
                     Get.toNamed(AppRoutes.friendRoom);
                   },
                 ),
                 SizedBox(height: 15),
+                ListView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: ctr.roomList.length,
+                  itemBuilder: (context, index) {
+                    final room = ctr.roomList[index];
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 15.0),
+                      child: _itemBox(
+                        room.roomType,
+                        room.roomDes,
+                        roomType(room.roomType),
+                        () {
+                          Get.toNamed(AppRoutes.friendRoom);
+                        },
+                      ),
+                    );
+                  },
+                ),
                 // _itemBox(
                 //   "Relationship Space",
                 //   "space made just for you are your people",
@@ -159,18 +183,35 @@ class SelectRoomSpace extends StatelessWidget {
             CircleAvatar(
               radius: 30,
               backgroundColor: AppColors.graPurple1,
-              child: Center(
-                child: Image.asset(
-                  image,
-                  errorBuilder: (context, error, stackTrace) {
-                    return Icon(Icons.error_outline, color: AppColors.white54);
-                  },
-                ),
+              child: Image.asset(
+                image,
+                width: 45,
+                height: 45,
+                errorBuilder: (context, error, stackTrace) {
+                  return Icon(Icons.error_outline, color: AppColors.white54);
+                },
               ),
             ),
           ],
         ),
       ),
     );
+  }
+}
+
+String roomType(String type) {
+  switch (type) {
+    case "Friends":
+      return "assets/room/support.png";
+    case "Relationships":
+      return "assets/room/in-love.png";
+    case "Casual Chat":
+      return "assets/room/bubble-chat.png";
+    case "Late Night Talks":
+      return "assets/room/moon.png";
+    case "Fun & Games":
+      return "assets/room/ball-pit.png";
+    default:
+      return "assets/room/user.png";
   }
 }

@@ -127,3 +127,10 @@ Widget iconButton(IconData icon, Color color, VoidCallback onTap) {
     icon: Icon(icon, color: color),
   );
 }
+
+Widget textButton(String text, Color color, VoidCallback onTap) {
+  return TextButton(
+    onPressed: onTap,
+    child: Text(text, style: textStyle15(FontWeight.w600, color: color)),
+  );
+}

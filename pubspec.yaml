@@ -43,6 +43,12 @@ dependencies:
 
   audioplayers: ^6.5.1
 
+  agora_rtc_engine: ^6.5.3
+  permission_handler: ^12.0.1
+  country_picker: ^2.0.27
+
+  google_sign_in: ^7.2.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -71,6 +77,7 @@ flutter:
     - assets/avatar/
     - assets/icons/
     - assets/svg/
+    - assets/room/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
